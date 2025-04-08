@@ -1,5 +1,6 @@
 # Performinator: Unleash Your Inner Penguin DJ
 
+```
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣠⣴⣶⣾⣿⣿⣷⣦⣄⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣤⣶⣿⣿⣿⣿⣿⣿⣿⣿⣯⣭⣿⣿⣷⣤⣄⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
 ⠀⠀⠀⠀⠀⠀⠀⠀⢀⣴⣿⣿⣿⣿⣿⠿⠿⢿⣿⠿⠿⠛⠛⠛⠛⠛⢿⣿⣿⣿⣷⣄⠀⠀⠀⠀⠀⠀⠀
@@ -24,6 +25,8 @@
 ─────────────────────────────────────────────
    "Slice beats, spin loops, modulate everything.
         Built by penguins. For everyone."
+```
+
 
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
