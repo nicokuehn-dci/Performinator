@@ -13,7 +13,7 @@ class AudioDeviceDialog(QDialog):
         layout = QVBoxLayout()
         
         self.engine_combo = QComboBox()
-        self.engine_combo.addItems(['JACK', 'ALSA', 'Pulse'])
+        self.engine_combo.addItems(['PipeWire', 'JACK', 'ALSA', 'Pulse'])
         layout.addWidget(QLabel("Audio Engine:"))
         layout.addWidget(self.engine_combo)
         

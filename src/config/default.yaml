@@ -2,10 +2,12 @@ audio:
   sample_rate: 44100
   buffer_size: 512
   default_path: ~/samples
+  audio_engine: pipewire
 
 midi:
   default_port: 0
   velocity_curve: exponential
+  midi_engine: pipewire
 
 gui:
   theme: dark
