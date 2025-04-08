@@ -1,0 +1,4 @@
+everything that is named elektron should be renamed cause of copyright stuff. name it : perftron. 
+audio-sample library should be loaded from local machine, so add possibilities to choose library and remember location of it, 
+so user could easily and fast load own samples to work with it. 
+make it possible to export the actual samples that loaded into the sampler(8tracks) as an samplepack for performinator(if possible with own format log data).
