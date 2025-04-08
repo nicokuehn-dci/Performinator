@@ -85,9 +85,9 @@ def launch_electron_app():
     try:
         subprocess.run(["npm", "start"], check=True)
     except subprocess.CalledProcessError as e:
-        logger.error(f"Error launching Electron app: {e}")
+        logger.error(f"Error launching Performinator: {e}")
         if e.returncode == 1:
-            logger.error("Severe error: Electron app launch failed.")
+            logger.error("Severe error: Performinator launch failed.")
             sys.exit(1)
         else:
             logger.error("Non-severe error: Continuing execution.")
@@ -101,7 +101,7 @@ def main():
         learning_manager = LearningManager()
         learning_manager.capture_user_input("Setup and dependencies installed")
         launch_electron_app()
-        learning_manager.capture_user_output("Electron app launched")
+        learning_manager.capture_user_output("Performinator launched")
     except Exception as e:
         logger.error(f"Unhandled exception: {e}")
         if isinstance(e, subprocess.CalledProcessError) and e.returncode == 1:

@@ -1,7 +1,7 @@
 {
-  "name": "TuxTrax",
+  "name": "Performinator",
   "version": "1.0.0",
-  "description": "A powerful, open-source live performance sampler and mixer.",
+  "description": "Performinator: Unleash Your Inner Penguin DJ",
   "main": "main.js",
   "scripts": {
     "start": "electron ."

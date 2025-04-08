@@ -126,10 +126,10 @@ def configure_magenta_studio():
 
 def launch_app():
     try:
-        logger.info("🚀 Launching TuxTrax...")
-        subprocess.run(["tuxtrax"], check=True)
+        logger.info("🚀 Launching Performinator...")
+        subprocess.run(["performinator"], check=True)
     except subprocess.CalledProcessError as e:
-        logger.error(f"❌ Failed to launch TuxTrax: {e}", exc_info=True)
+        logger.error(f"❌ Failed to launch Performinator: {e}", exc_info=True)
     except KeyboardInterrupt:
         logger.info("\n🛑 Session terminated")
 
@@ -158,7 +158,7 @@ def system_check():
     return True
 
 def parse_args():
-    parser = argparse.ArgumentParser(description="Launch TuxTrax with system checks and configuration.")
+    parser = argparse.ArgumentParser(description="Launch Performinator with system checks and configuration.")
     parser.add_argument("--debug", action="store_true", help="Enable debug output")
     return parser.parse_args()
 
@@ -218,7 +218,7 @@ def main():
         
         # Launch application after all configurations are complete
         launch_app()
-        learning_manager.capture_user_output("TuxTrax launched")
+        learning_manager.capture_user_output("Performinator launched")
         
     except Exception as e:
         logger.error(f"\n❌ Setup failed: {e}", exc_info=True)

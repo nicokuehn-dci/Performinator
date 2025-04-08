@@ -1,4 +1,4 @@
-# TuxTrax: Unleash Your Inner Penguin DJ
+# Performinator: Unleash Your Inner Penguin DJ
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 ![Ubuntu-First](https://img.shields.io/badge/Platform-Linux%20(Ubuntu)-brightgreen)
@@ -7,7 +7,7 @@
 
 ## Jam Like a Penguin: The Ubuntu-First Live Performance Sampler & Mixer
 
-**TuxTrax** is a powerful, open-source live performance sampler and mixer, built from the ground up for Ubuntu and the vibrant Linux audio community. Embrace the spirit of Tux, the Linux penguin, and unleash your creativity with this powerful and versatile tool. Whether you're a seasoned DJ or just starting your musical journey, TuxTrax combines intuitive sampling, mixing, and performance features with cutting-edge AI-powered tools, providing everything you need to create captivating live soundscapes.
+**Performinator** is a powerful, open-source live performance sampler and mixer, built from the ground up for Ubuntu and the vibrant Linux audio community. Embrace the spirit of Tux, the Linux penguin, and unleash your creativity with this powerful and versatile tool. Whether you're a seasoned DJ or just starting your musical journey, Performinator combines intuitive sampling, mixing, and performance features with cutting-edge AI-powered tools, providing everything you need to create captivating live soundscapes.
 
 ## Core Features - Assembled By Penguins
 
@@ -44,12 +44,12 @@
 *   **Auto-Tag Samples:** Spend less time organizing and more time creating, thanks to ML-driven tagging for genre, instrument type, key, and BPM.
 *   **Smart Sample Matching:** Uncover hidden sonic gems by finding harmonically compatible samples.
 *   **AI Mastering:** Achieve a professional, polished sound with one-click EQ, limiter, and stereo widening.
-*   **Style Transfer:** Transform your audio between genres. Want to turn a rock riff into a DnB banger? TuxTrax has you covered! (Experimental feature)
+*   **Style Transfer:** Transform your audio between genres. Want to turn a rock riff into a DnB banger? Performinator has you covered! (Experimental feature)
 
 ### Sample Library Integration: Dive Into Your Sound Collection
 
 *   **Deep Library Scanning:** Automatically index your Splice, Loopmasters, or other sample folders.
-*   **Cloud Sync:** TuxTrax can synchronize your sample library with cloud storage. Currently, it supports folder synchronization with Google Drive, Dropbox, Splice, and Noiiz. Direct API integration is planned for future releases. File conflicts are resolved by keeping the most recently modified version.
+*   **Cloud Sync:** Performinator can synchronize your sample library with cloud storage. Currently, it supports folder synchronization with Google Drive, Dropbox, Splice, and Noiiz. Direct API integration is planned for future releases. File conflicts are resolved by keeping the most recently modified version.
 *   **Auto-Fill Channels:** Spark inspiration with:
     *   **Style-Based Channel Population:** Quickly create complete kits based on genre (e.g., "Hip-Hop Kit").
     *   **"Surprise Me" Randomization:** Embrace the unexpected and discover new sounds.
@@ -60,7 +60,7 @@
     *   **Genre Templates:** Load pre-made templates for House, Trap, Techno, Lo-fi, and more.
     *   **Humanization:** Inject groove and swing into your MIDI sequences with realistic humanization templates.
 *   **MIDI Drag & Drop:** Seamlessly export MIDI clips to your favorite DAWs or hardware for further refinement.
-*   **MIDI Learn:** Take hands-on control by mapping hardware knobs and faders to TuxTrax parameters.
+*   **MIDI Learn:** Take hands-on control by mapping hardware knobs and faders to Performinator parameters.
 
 ### Modulation & Automation: Bring Your Sounds to Life
 
@@ -82,7 +82,7 @@
 *   **Spectrogram View:** Analyze the frequency content of your audio with real-time spectrogram visualization powered by `pyqtgraph`.
 *   **Phase Correlation Meter:** Prevent mono compatibility issues with real-time phase monitoring.
 
-## Unique Selling Points: Why Choose TuxTrax?
+## Unique Selling Points: Why Choose Performinator?
 
 *   **Vintage Mode:** Add the warmth and character of classic analog gear with tape hiss and vinyl crackle emulation.
 *   **Modular FX Grid:** Design your own custom effects chains with drag-and-drop routing (inspired by Bitwig).
@@ -91,7 +91,7 @@
 
 ## Tech Stack: Under the Hood
 
-TuxTrax is built on a foundation of powerful, open-source technologies:
+Performinator is built on a foundation of powerful, open-source technologies:
 
 *   **Python Libraries:**
     *   **Audio Engine:** `pedalboard`, `sounddevice`, `pydub`
@@ -109,15 +109,15 @@ TuxTrax is built on a foundation of powerful, open-source technologies:
 1.  **Clone the repository:**
 
     ```
-    git clone git@github.com:nicokuehn-dci/TuxTrax.git
-    cd TuxTrax
+    git clone git@github.com:nicokuehn-dci/Performinator.git
+    cd Performinator
     ```
 
 2.  **Dive into the [Setup Guide](docs/SETUP.md) for detailed installation and configuration instructions.**
 
 ## Contributing: Join the Penguin Party
 
-We welcome contributions from the open-source community! Whether you're a seasoned developer, a talented sound designer, or just eager to help, there's a place for you in the TuxTrax community. Check out our [Contribution Guidelines](CONTRIBUTING.md) for more information.
+We welcome contributions from the open-source community! Whether you're a seasoned developer, a talented sound designer, or just eager to help, there's a place for you in the Performinator community. Check out our [Contribution Guidelines](CONTRIBUTING.md) for more information.
 
 ## License: Open Source, Open Minds
 
@@ -127,12 +127,12 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 Encounter a bug? Have a feature request? Let us know by opening an issue on GitHub!
 
-## Roadmap: The Future of TuxTrax
+## Roadmap: The Future of Performinator
 
 *   [ ] **Implement Style Transfer:** Expand our AI-powered style transfer capabilities.
 *   [ ] **Expand the MIDI Style Library:** Provide even more genre-specific MIDI templates.
 *   [ ] **Improve Cloud Collaboration Features:** Make real-time jamming even more seamless.
-*   [ ] **Native Plugin Support**: Host VST/AU plugins within TuxTrax.
+*   [ ] **Native Plugin Support**: Host VST/AU plugins within Performinator.
 
 ## Experimental Features Development Lifecycle
 
@@ -148,7 +148,7 @@ To provide clarity on the development status of experimental features, we have i
 
 ## Show Your Support: Give a Penguin a Fish
 
-If you find TuxTrax useful, please give this project a ⭐ to show your support! And don't forget to share your creations with the world!
+If you find Performinator useful, please give this project a ⭐ to show your support! And don't forget to share your creations with the world!
 
 ## Connect with the Community:
 
@@ -156,12 +156,12 @@ If you find TuxTrax useful, please give this project a ⭐ to show your support!
 *   [ ] Forum: (Add a link to a forum or discussion board)
 
 
-Structure of TruxTrax Project
+Structure of Performinator Project
 
 ## Project Structure
 
 ```bash
-TuxTrax/
+Performinator/
 ├── .gitignore
 ├── requirements.txt
 ├── setup.py
@@ -204,8 +204,8 @@ TuxTrax/
 Installation (Ubuntu/Linux)
 
 # Clone repository
-git clone https://github.com/nicokuehn-dci/TuxTrax.git
-cd TuxTrax
+git clone https://github.com/nicokuehn-dci/Performinator.git
+cd Performinator
 
 # Install system dependencies
 sudo apt-get install -y python3-tk ffmpeg pipewire libportaudio2
@@ -223,9 +223,9 @@ echo "@audio - rtprio 99" | sudo tee -a /etc/security/limits.conf
 
 ## Contribution Guidelines
 
-We welcome contributions from the open-source community! Whether you're a seasoned developer, a talented sound designer, or just eager to help, there's a place for you in the TuxTrax community. Here are some ways you can contribute:
+We welcome contributions from the open-source community! Whether you're a seasoned developer, a talented sound designer, or just eager to help, there's a place for you in the Performinator community. Here are some ways you can contribute:
 
-1. **Report Bugs:** If you encounter any issues while using TuxTrax, please report them by opening an issue on GitHub. Be sure to include detailed information about the problem and steps to reproduce it.
+1. **Report Bugs:** If you encounter any issues while using Performinator, please report them by opening an issue on GitHub. Be sure to include detailed information about the problem and steps to reproduce it.
 
 2. **Request Features:** Have an idea for a new feature? We'd love to hear it! Open an issue on GitHub to share your suggestion.
 
@@ -241,13 +241,13 @@ We welcome contributions from the open-source community! Whether you're a season
 
 ## Detailed Setup Guide
 
-For detailed installation and configuration instructions, please refer to the [Setup Guide](docs/SETUP.md). This guide includes step-by-step instructions for installing TuxTrax on Ubuntu, including system dependencies, virtual environment setup, and configuring PipeWire audio.
+For detailed installation and configuration instructions, please refer to the [Setup Guide](docs/SETUP.md). This guide includes step-by-step instructions for installing Performinator on Ubuntu, including system dependencies, virtual environment setup, and configuring PipeWire audio.
 
 ## New Features
 
 ### Audio Loops and Auto Quantize to BPM
 
-TuxTrax now includes handling for audio loops and auto quantize to BPM. This allows you to seamlessly integrate loops into your projects and ensure they are perfectly in sync with your desired tempo.
+Performinator now includes handling for audio loops and auto quantize to BPM. This allows you to seamlessly integrate loops into your projects and ensure they are perfectly in sync with your desired tempo.
 
 ### Time-Stretching
 
@@ -255,7 +255,7 @@ With the new time-stretching feature, you can adjust the tempo of your audio sam
 
 ### High-Quality Output
 
-TuxTrax now offers high-quality output options, ensuring your final mix sounds professional and polished. This includes advanced processing techniques to enhance the overall sound quality.
+Performinator now offers high-quality output options, ensuring your final mix sounds professional and polished. This includes advanced processing techniques to enhance the overall sound quality.
 
 ### MIDI Auto Quantize
 
@@ -267,15 +267,15 @@ The documentation has been updated to reflect these new features. Be sure to che
 
 ## Project Purpose
 
-TuxTrax is designed to provide a powerful and versatile tool for live performance sampling and mixing, with a focus on the Ubuntu and Linux audio community. It aims to combine intuitive sampling, mixing, and performance features with cutting-edge AI-powered tools, enabling users to create captivating live soundscapes.
+Performinator is designed to provide a powerful and versatile tool for live performance sampling and mixing, with a focus on the Ubuntu and Linux audio community. It aims to combine intuitive sampling, mixing, and performance features with cutting-edge AI-powered tools, enabling users to create captivating live soundscapes.
 
 ## Setup Steps
 
 1. **Clone the repository:**
 
     ```
-    git clone git@github.com:nicokuehn-dci/TuxTrax.git
-    cd TuxTrax
+    git clone git@github.com:nicokuehn-dci/Performinator.git
+    cd Performinator
     ```
 
 2. **Install system dependencies:**
@@ -306,7 +306,7 @@ TuxTrax is designed to provide a powerful and versatile tool for live performanc
 
 ## Dependencies
 
-TuxTrax relies on the following dependencies:
+Performinator relies on the following dependencies:
 
 *   **Python Libraries:**
     *   **Audio Engine:** `pedalboard`, `sounddevice`, `pydub`
@@ -351,7 +351,7 @@ TuxTrax relies on the following dependencies:
 
 ## Hybrid Approach with Electron and Python
 
-TuxTrax leverages a hybrid approach, combining the power of Electron for the GUI and regular Python code for other functionalities. This allows us to create a modern, responsive user interface while maintaining the flexibility and performance of Python for audio processing, MIDI handling, and other core features.
+Performinator leverages a hybrid approach, combining the power of Electron for the GUI and regular Python code for other functionalities. This allows us to create a modern, responsive user interface while maintaining the flexibility and performance of Python for audio processing, MIDI handling, and other core features.
 
 ### Why Electron?
 
@@ -373,7 +373,7 @@ TuxTrax leverages a hybrid approach, combining the power of Electron for the GUI
 
 ### New Methods for Generating, Filtering, and Recombining MIDI Drum Patterns
 
-TuxTrax now includes new methods for generating, filtering, and recombining MIDI drum patterns using Python scripts. These methods are designed to enhance your creative workflow and provide more flexibility in creating unique drum patterns.
+Performinator now includes new methods for generating, filtering, and recombining MIDI drum patterns using Python scripts. These methods are designed to enhance your creative workflow and provide more flexibility in creating unique drum patterns.
 
 #### Generating Original MIDI Drum Patterns
 
@@ -422,7 +422,7 @@ The `recombine_patterns` method uses Markov chains to mix elements from your own
 
 ## Learning Capabilities: Continuous Improvement
 
-TuxTrax now includes learning capabilities that allow the software to learn from every user input and output, making it more stable and intelligent over time. This is achieved through the integration of the `LearningManager` class, which captures user interactions and updates the model accordingly.
+Performinator now includes learning capabilities that allow the software to learn from every user input and output, making it more stable and intelligent over time. This is achieved through the integration of the `LearningManager` class, which captures user interactions and updates the model accordingly.
 
 ### How It Works
 
@@ -441,7 +441,7 @@ For example, if you frequently use certain effects or settings, the software can
 
 ### Getting Started with Learning Capabilities
 
-To start using the learning capabilities, simply use TuxTrax as you normally would. The `LearningManager` will automatically capture your interactions and update the model in the background.
+To start using the learning capabilities, simply use Performinator as you normally would. The `LearningManager` will automatically capture your interactions and update the model in the background.
 
 ### Future Enhancements
 
