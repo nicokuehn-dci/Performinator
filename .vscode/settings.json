@@ -1,0 +1,23 @@
+{
+    "cSpell.words": [
+        "aiva",
+        "alsa",
+        "configparser",
+        "hotplug",
+        "librosa",
+        "libudev",
+        "mido",
+        "netlink",
+        "numpy",
+        "pedalboard",
+        "Performinator",
+        "pipewire",
+        "pydbus",
+        "pydub",
+        "pyqtgraph",
+        "pytest",
+        "rtmidi",
+        "sounddevice",
+        "soundfile"
+    ]
+}

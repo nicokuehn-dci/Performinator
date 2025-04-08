@@ -2,6 +2,8 @@ import subprocess
 import sys
 import os
 import logging
+import pydbus  # For PipeWire metadata
+from pyudev import Context, Monitor, MonitorObserver  # For MIDI hotplug
 from src.utils.learning_manager import LearningManager
 
 # Set up logging
@@ -39,6 +41,46 @@ def install_dependencies():
         else:
             logger.error("Non-severe error: Continuing execution.")
 
+def setup_pipewire_metadata():
+    """
+    Sets up PipeWire metadata for DAW integration.
+    """
+    try:
+        logger.info("🎵 Setting up PipeWire metadata for DAW integration...")
+        bus = pydbus.SystemBus()
+        pipewire = bus.get("org.freedesktop.pipewire1")
+        # Example: Set metadata (replace with actual implementation)
+        pipewire.SetMetadata("example.key", "example.value")
+        logger.info("PipeWire metadata setup complete.")
+    except Exception as e:
+        logger.error(f"Error setting up PipeWire metadata: {e}")
+        raise
+
+def monitor_midi_hotplug():
+    """
+    Monitors MIDI device hotplug events using libudev.
+    """
+    try:
+        logger.info("🎹 Monitoring MIDI device hotplug events...")
+        context = Context()
+        monitor = Monitor.from_netlink(context)
+        monitor.filter_by(subsystem="sound")
+        observer = MonitorObserver(monitor, callback=midi_hotplug_callback)
+        observer.start()
+        logger.info("MIDI hotplug monitoring started.")
+    except Exception as e:
+        logger.error(f"Error monitoring MIDI hotplug events: {e}")
+        raise
+
+def midi_hotplug_callback(action, device):
+    """
+    Callback for MIDI device hotplug events.
+    """
+    if action == "add":
+        logger.info(f"MIDI device connected: {device.device_node}")
+    elif action == "remove":
+        logger.info(f"MIDI device disconnected: {device.device_node}")
+
 def launch_electron_app():
     try:
         subprocess.run(["npm", "start"], check=True)
@@ -54,6 +96,8 @@ def main():
     try:
         setup_virtualenv()
         install_dependencies()
+        setup_pipewire_metadata()  # Add PipeWire metadata setup
+        monitor_midi_hotplug()  # Start MIDI hotplug monitoring
         learning_manager = LearningManager()
         learning_manager.capture_user_input("Setup and dependencies installed")
         launch_electron_app()

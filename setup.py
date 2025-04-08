@@ -16,7 +16,7 @@ def log_error(message, severity="non-severe"):
 
 try:
     setup(
-        name="TuxTrax",
+        name="Performinator",  # Updated app name
         version="0.1.0",
         packages=find_packages(where="src"),
         package_dir={"": "src"},  # Tell setuptools that packages are under the 'src' directory
@@ -43,7 +43,7 @@ try:
         ],
         entry_points={
             'console_scripts': [
-                'tuxtrax=main:main', # Changed entry point
+                'performinator=main:main',  # Updated entry point
             ],
         },
         package_data={
