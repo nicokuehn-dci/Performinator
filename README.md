@@ -27,8 +27,6 @@
         Built by penguins. For everyone."
 ```
 
-
-
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 ![Ubuntu-First](https://img.shields.io/badge/Platform-Linux%20(Ubuntu)-brightgreen)
 ![Python](https://img.shields.io/badge/Language-Python-blue)
@@ -184,9 +182,6 @@ If you find Performinator useful, please give this project a ⭐ to show your su
 *   [ ] Discord: (Add a link to a Discord server if you have one)
 *   [ ] Forum: (Add a link to a forum or discussion board)
 
-
-Structure of Performinator Project
-
 ## Project Structure
 
 ```bash
@@ -227,28 +222,42 @@ Performinator/
 └── .vscode/
     ├── settings.json
     └── extensions.json
+```
 
+## Installation (Ubuntu/Linux)
 
+1. **Clone repository:**
 
-Installation (Ubuntu/Linux)
+    ```
+    git clone https://github.com/nicokuehn-dci/Performinator.git
+    cd Performinator
+    ```
 
-# Clone repository
-git clone https://github.com/nicokuehn-dci/Performinator.git
-cd Performinator
+2. **Install system dependencies:**
 
-# Install system dependencies
-sudo apt-get install -y python3-tk ffmpeg pipewire libportaudio2
+    ```
+    sudo apt-get install -y python3-tk ffmpeg pipewire libportaudio2
+    ```
 
-# Create virtual environment
-python3 -m venv daw_env
-source daw_env/bin/activate
+3. **Create virtual environment:**
 
-# Install Python packages
-pip install -r requirements.txt
+    ```
+    python3 -m venv daw_env
+    source daw_env/bin/activate
+    ```
 
-# Configure PipeWire audio (reboot after)
-sudo usermod -a -G audio $USER
-echo "@audio - rtprio 99" | sudo tee -a /etc/security/limits.conf
+4. **Install Python packages:**
+
+    ```
+    pip install -r requirements.txt
+    ```
+
+5. **Configure PipeWire audio (reboot after):**
+
+    ```
+    sudo usermod -a -G audio $USER
+    echo "@audio - rtprio 99" | sudo tee -a /etc/security/limits.conf
+    ```
 
 ## Contribution Guidelines
 
