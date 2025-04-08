@@ -62,3 +62,7 @@ This file outlines suggestions for improving the TuxTrax CONTRIBUTING.md file, a
 * **Question:** What is the used branch strategy?
 
 ---
+
+## Note on Cloud and Online Features
+
+Please note that cloud and online features are future features. These features should be kept in the option menu and layout, but if clicked, they should show a message indicating that it is a feature that is coming later.

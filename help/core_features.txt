@@ -40,6 +40,8 @@ Cloud Sync:
 
     File conflicts are resolved by keeping the most recently modified version.
 
+    Note: Cloud and online features are future features. These features should be kept in the option menu and layout, but if clicked, they should show a message indicating that it is a feature that is coming later.
+
 Pro Features:
 
 AI-Powered Workflow

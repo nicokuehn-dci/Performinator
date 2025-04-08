@@ -55,3 +55,6 @@ try:
     logger.info("Setup completed successfully.")
 except Exception as e:
     log_error(f"Error during setup: {e}", severity="severe")
+
+# Note on Cloud and Online Features
+logger.info("Please note that cloud and online features are future features. These features should be kept in the option menu and layout, but if clicked, they should show a message indicating that it is a feature that is coming later.")

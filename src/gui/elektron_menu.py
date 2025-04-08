@@ -1,4 +1,4 @@
-from PyQt5.QtWidgets import QMenuBar, QAction
+from PyQt5.QtWidgets import QMenuBar, QAction, QMessageBox
 
 class ElektronMenu(QMenuBar):
     def __init__(self, parent=None):
@@ -85,17 +85,20 @@ class ElektronMenu(QMenuBar):
         audio_settings_action = QAction("Audio Settings", self)
         midi_settings_action = QAction("MIDI Settings", self)
         ai_protocol_settings_action = QAction("AI Protocol Settings", self)
-        rescan_audio_library_action = QAction("Rescan Audio Library", self)  # Pafd5
+        rescan_audio_library_action = QAction("Rescan Audio Library", self)
+        cloud_feature_action = QAction("Cloud Feature", self)  # P36e0
 
         self.options_menu.addAction(audio_settings_action)
         self.options_menu.addAction(midi_settings_action)
         self.options_menu.addAction(ai_protocol_settings_action)
-        self.options_menu.addAction(rescan_audio_library_action)  # Pafd5
+        self.options_menu.addAction(rescan_audio_library_action)
+        self.options_menu.addAction(cloud_feature_action)  # P36e0
 
         audio_settings_action.triggered.connect(self.parent().audio_settings)
         midi_settings_action.triggered.connect(self.parent().midi_settings)
         ai_protocol_settings_action.triggered.connect(self.parent().ai_protocol_settings)
-        rescan_audio_library_action.triggered.connect(self.parent().rescan_audio_library)  # P657a
+        rescan_audio_library_action.triggered.connect(self.parent().rescan_audio_library)
+        cloud_feature_action.triggered.connect(self.show_cloud_feature_message)  # P962d
 
     def _add_components_menu_actions(self):
         add_component_action = QAction("Add Component", self)
@@ -109,3 +112,6 @@ class ElektronMenu(QMenuBar):
         add_component_action.triggered.connect(self.parent().add_component)
         remove_component_action.triggered.connect(self.parent().remove_component)
         manage_components_action.triggered.connect(self.parent().manage_components)
+
+    def show_cloud_feature_message(self):
+        QMessageBox.information(self, "Coming Soon", "This feature is coming later.")  # P962d

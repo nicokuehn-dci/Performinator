@@ -140,4 +140,8 @@ python3 src/main.py
 
 ![Phase Correlation Meter](docs/images/phase_correlation_meter.png)
 
+## Note on Cloud and Online Features
+
+Please note that cloud and online features are future features. These features should be kept in the option menu and layout, but if clicked, they should show a message indicating that it is a feature that is coming later.
+
 Enjoy making music with TuxTrax!

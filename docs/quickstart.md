@@ -36,3 +36,7 @@ TuxTrax now offers high-quality output options, ensuring your final mix sounds p
 ### MIDI Auto Quantize
 
 The MIDI auto quantize feature allows you to automatically align your MIDI notes to the nearest beat, ensuring tight and precise timing in your performances.
+
+## Note on Cloud and Online Features
+
+Please note that cloud and online features are future features. These features should be kept in the option menu and layout, but if clicked, they should show a message indicating that it is a feature that is coming later.

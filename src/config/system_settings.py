@@ -54,3 +54,6 @@ def load_settings_from_json(file_path):
                 config.set(section, option, value)
         with open('system_settings.ini', 'w') as configfile:
             config.write(configfile)
+
+# Note on Cloud and Online Features
+# Please note that cloud and online features are future features. These features should be kept in the option menu and layout, but if clicked, they should show a message indicating that it is a feature that is coming later.

@@ -110,6 +110,9 @@ def main():
         else:
             logger.error("Non-severe error: Continuing execution.")
 
+def show_cloud_feature_message():
+    logger.info("This is a feature that is coming later.")
+
 if __name__ == "__main__":
     try:
         main()

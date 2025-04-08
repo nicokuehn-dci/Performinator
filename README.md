@@ -447,3 +447,6 @@ To start using the learning capabilities, simply use Performinator as you normal
 
 We plan to further enhance the learning capabilities by incorporating more advanced machine learning algorithms and expanding the range of interactions that the software can learn from.
 
+## Note on Cloud and Online Features
+
+Please note that cloud and online features are future features. These features should be kept in the option menu and layout, but if clicked, they should show a message indicating that it is a feature that is coming later.

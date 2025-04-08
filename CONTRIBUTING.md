@@ -26,3 +26,7 @@ Help us keep our documentation up-to-date and comprehensive. If you find any gap
 ## Joining the Discussion
 
 Engage with the community by participating in discussions on GitHub, Discord, or our forum. Your feedback and ideas are invaluable to the project's growth.
+
+## Note on Cloud and Online Features
+
+Please note that cloud and online features are future features. These features should be kept in the option menu and layout, but if clicked, they should show a message indicating that it is a feature that is coming later.

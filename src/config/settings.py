@@ -1,4 +1,5 @@
 import os
+import json
 
 class AudioMIDISettings:
     def __init__(self, sample_rate=44100, buffer_size=512, midi_device="default", magenta_studio_path="", db_path="learning_data.db", pattern_save_path="patterns"):
@@ -37,3 +38,6 @@ class AudioMIDISettings:
         with open(file_path, 'r') as json_file:
             settings = json.load(json_file)
             self.load_settings(settings)
+
+# Note on Cloud and Online Features
+# Please note that cloud and online features are future features. These features should be kept in the option menu and layout, but if clicked, they should show a message indicating that it is a feature that is coming later.

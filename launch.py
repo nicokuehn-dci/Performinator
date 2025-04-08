@@ -229,3 +229,6 @@ if __name__ == "__main__":
         main()
     except KeyboardInterrupt:
         logger.info("\n🛑 Operation cancelled")
+
+# Note on Cloud and Online Features
+# Please note that cloud and online features are future features. These features should be kept in the option menu and layout, but if clicked, they should show a message indicating that it is a feature that is coming later.

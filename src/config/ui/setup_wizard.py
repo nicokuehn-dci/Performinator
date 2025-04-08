@@ -1,4 +1,4 @@
-from PyQt5.QtWidgets import QWizard, QWizardPage, QVBoxLayout, QPushButton, QComboBox, QLabel, QFileDialog
+from PyQt5.QtWidgets import QWizard, QWizardPage, QVBoxLayout, QPushButton, QComboBox, QLabel, QFileDialog, QMessageBox
 from .dialogs.device_config import AudioDeviceDialog
 from ..config.settings import AudioMIDISettings
 import subprocess
@@ -187,3 +187,18 @@ class ComponentsPage(QWizardPage):
     def manage_components(self):
         logger.info("Manage Components action triggered")
         # Implement the logic to handle Manage Components
+
+class CloudFeaturePage(QWizardPage):
+    def __init__(self):
+        super().__init__()
+        self.setTitle("Cloud and Online Features")
+        self.setSubTitle("These features are coming soon.")
+        
+        layout = QVBoxLayout()
+        self.cloud_feature_button = QPushButton("Cloud Feature")
+        self.cloud_feature_button.clicked.connect(self.show_message)
+        layout.addWidget(self.cloud_feature_button)
+        self.setLayout(layout)
+        
+    def show_message(self):
+        QMessageBox.information(self, "Coming Soon", "This feature is coming later.")

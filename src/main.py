@@ -2,7 +2,7 @@ import sys
 import sounddevice as sounddevice
 import numpy as np
 from threading import Thread, Lock
-from PyQt5.QtWidgets import QApplication, QMainWindow, QDockWidget, QWidget, QVBoxLayout, QPushButton, QLineEdit, QLabel
+from PyQt5.QtWidgets import QApplication, QMainWindow, QDockWidget, QWidget, QVBoxLayout, QPushButton, QLineEdit, QLabel, QMessageBox
 from gui.elektron_menu import ElektronMenu
 from gui.performance_grid import PerformanceGrid
 from gui.transport_controls import TransportControls
@@ -77,6 +77,7 @@ class MainWindow(QMainWindow):
         self.menu.options_menu.actions()[1].triggered.connect(self.midi_settings)
         self.menu.options_menu.actions()[2].triggered.connect(self.ai_protocol_settings)
         self.menu.options_menu.actions()[3].triggered.connect(self.rescan_audio_library)  # Pcf00
+        self.menu.options_menu.actions()[4].triggered.connect(self.show_cloud_feature_message)  # P1726
         self.menu.components_menu.actions()[0].triggered.connect(self.add_component)
         self.menu.components_menu.actions()[1].triggered.connect(self.remove_component)
         self.menu.components_menu.actions()[2].triggered.connect(self.manage_components)
@@ -221,6 +222,9 @@ class MainWindow(QMainWindow):
         logger.info("Rescan Audio Library action triggered")
         self.sampler.rescan_audio_library()
 
+    def show_cloud_feature_message(self):
+        QMessageBox.information(self, "Coming Soon", "This feature is coming later.")  # P1726
+
 def main():
     app = QApplication(sys.argv)
     window = MainWindow()
@@ -234,3 +238,6 @@ if __name__ == "__main__":
     except Exception as e:
         logger.error(f"Unhandled exception: {e}")
         sys.exit(1)
+
+# Note on Cloud and Online Features
+# Please note that cloud and online features are future features. These features should be kept in the option menu and layout, but if clicked, they should show a message indicating that it is a feature that is coming later.

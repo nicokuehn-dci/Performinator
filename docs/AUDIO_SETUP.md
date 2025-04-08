@@ -165,3 +165,7 @@ sudo apt install linux-lowlatency  # If on Ubuntu
 ### Example 4: Applying System Tweaks
 
 ![Applying System Tweaks](images/applying_system_tweaks.png)
+
+## Note on Cloud and Online Features
+
+Please note that cloud and online features are future features. These features should be kept in the option menu and layout, but if clicked, they should show a message indicating that it is a feature that is coming later.
