@@ -620,3 +620,7 @@ Please note that cloud and online features are future features. These features s
 - **Project Overview:** Manage previous projects with information like genre, BPM, and creation date
 - **New Project:** Button to create a new project as described above
 - **Notifications:** Optional notifications about updates and new features
+
+## How to Start
+
+For a detailed step-by-step guide on how to install, activate, and start Performinator, please refer to the [How to Start Guide](docs/HOW_TO_START.md).
