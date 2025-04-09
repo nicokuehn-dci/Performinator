@@ -5,10 +5,41 @@ import logging
 import pydbus  # For PipeWire metadata
 from pyudev import Context, Monitor, MonitorObserver  # For MIDI hotplug
 from src.utils.learning_manager import LearningManager
+from tkinter import filedialog
+import customtkinter as ctk
 
 # Set up logging
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
 logger = logging.getLogger(__name__)
+
+class LoopLoader:
+    def __init__(self):
+        self.current_loop_path = None
+
+    def import_loop(self):
+        """Open file dialog to import a loop sample (WAV, MP3, etc.)"""
+        filetypes = [("Audio Files", "*.wav *.mp3 *.aiff *.flac")]
+        path = filedialog.askopenfilename(title="Import Loop", filetypes=filetypes)
+        if path:
+            self.current_loop_path = path
+            print(f"[LoopLoader] Loop imported: {os.path.basename(path)}")
+        return path
+
+    def get_loop_name(self):
+        if self.current_loop_path:
+            return os.path.basename(self.current_loop_path)
+        return "No loop loaded"
+
+    def get_loop_path(self):
+        return self.current_loop_path
+
+    # Optional: Playback integration placeholder
+    def play_loop(self):
+        if self.current_loop_path:
+            print(f"[LoopLoader] Playing loop: {self.current_loop_path}")
+            # Here you would route this to your sampler or audio engine
+        else:
+            print("[LoopLoader] No loop loaded.")
 
 def setup_virtualenv():
     try:
