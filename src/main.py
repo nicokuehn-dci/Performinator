@@ -18,6 +18,7 @@ import pipewire as pw
 import os
 from src.sampler.sample_control import SampleControl
 from src.utils.learning_manager import SamplerLoader
+from src.utils.state_manager import ProjectManager
 
 # Set up logging
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
@@ -280,10 +281,34 @@ class SamplerInterface(ctk.CTkFrame):
                 new_pitch = float(input("Set pitch value: "))
                 sample_control.set_pitch(new_pitch)
 
+class ProjectSelector(ctk.CTkFrame):
+    def __init__(self, master, *args, **kwargs):
+        super().__init__(master, *args, **kwargs)
+
+        self.project_listbox = ctk.CTkListbox(self)
+        self.project_listbox.pack(pady=10)
+
+        self.load_button = ctk.CTkButton(self, text="Load Project", command=self.load_project)
+        self.load_button.pack(pady=10)
+
+    def load_project(self):
+        selected_project = self.project_listbox.get(self.project_listbox.curselection())
+        print(f"Loading Project: {selected_project}")
+        project_manager = ProjectManager()
+        project_data = project_manager.load_project_data(selected_project)
+        if project_data:
+            self.update_ui_with_project_data(project_data)
+
+    def update_ui_with_project_data(self, project_data):
+        # Update the relevant UI elements with the loaded project data
+        pass
+
 def main():
     app = ctk.CTk()
     window = MainWindow()
     window.geometry("1280x720")
+    project_selector = ProjectSelector(window)
+    project_selector.pack(side="left", fill="y")
     window.mainloop()
 
 if __name__ == "__main__":

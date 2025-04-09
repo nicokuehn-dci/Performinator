@@ -85,3 +85,12 @@ class ProjectManager:
         except Exception as e:
             logger.error(f"Error loading project from JSON: {e}")
             raise
+
+    def load_project_data(self, project_name):
+        try:
+            project_path = Path("projects") / f"{project_name}.json"
+            with open(project_path, 'r') as f:
+                return json.load(f)
+        except Exception as e:
+            logger.error(f"Error loading project data for {project_name}: {e}")
+            return None
