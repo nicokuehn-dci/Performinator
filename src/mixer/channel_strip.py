@@ -1,10 +1,23 @@
 import customtkinter as ctk
 
+class EffectUnit:
+    def __init__(self):
+        self.active_fx = {}
+
+    def toggle_effect(self, channel_id, effect_name, state):
+        key = (channel_id, effect_name)
+        self.active_fx[key] = state
+        print(f"[Effects] {effect_name} on Channel {channel_id} set to {'ON' if state else 'OFF'}")
+
+    def is_active(self, channel_id, effect_name):
+        return self.active_fx.get((channel_id, effect_name), False)
+
 class ChannelStrip(ctk.CTkFrame):
     def __init__(self, master, channel_id, *args, **kwargs):
         super().__init__(master, *args, **kwargs)
         self.channel_id = channel_id
         self.configure(border_width=2, corner_radius=8)
+        self.effect_unit = EffectUnit()
 
         # Channel Label
         self.label = ctk.CTkLabel(self, text=f"Channel {channel_id}", font=("Arial", 14, "bold"))
@@ -37,8 +50,8 @@ class ChannelStrip(ctk.CTkFrame):
         # Saturation / Tape
         self.sat_var = ctk.BooleanVar()
         self.tape_var = ctk.BooleanVar()
-        self.saturation = ctk.CTkCheckBox(self, text="Saturation", variable=self.sat_var)
-        self.tape = ctk.CTkCheckBox(self, text="Tape", variable=self.tape_var)
+        self.saturation = ctk.CTkCheckBox(self, text="Saturation", variable=self.sat_var, command=self.toggle_saturation)
+        self.tape = ctk.CTkCheckBox(self, text="Tape", variable=self.tape_var, command=self.toggle_tape)
         self.saturation.pack()
         self.tape.pack()
 
@@ -80,3 +93,11 @@ class ChannelStrip(ctk.CTkFrame):
     def set_pan(self, value):
         # Placeholder for setting pan
         print(f"Setting pan for channel {self.channel_id} to {value}")
+
+    def toggle_saturation(self):
+        state = self.sat_var.get()
+        self.effect_unit.toggle_effect(self.channel_id, "Saturation", state)
+
+    def toggle_tape(self):
+        state = self.tape_var.get()
+        self.effect_unit.toggle_effect(self.channel_id, "Tape", state)
