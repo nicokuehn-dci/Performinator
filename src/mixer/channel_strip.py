@@ -31,7 +31,7 @@ class ChannelStrip(ctk.CTkFrame):
 
         # VST3 Slot (Placeholder)
         self._add_label("VST3 Slot")
-        self.vst_button = ctk.CTkButton(self, text="Load VST3")
+        self.vst_button = ctk.CTkButton(self, text="Load VST3", command=self.load_vst3_plugin)
         self.vst_button.pack(pady=2)
 
         # Saturation / Tape
@@ -44,7 +44,7 @@ class ChannelStrip(ctk.CTkFrame):
 
         # Line-In
         self.line_in_var = ctk.BooleanVar()
-        self.line_in = ctk.CTkCheckBox(self, text="Line-In", variable=self.line_in_var)
+        self.line_in = ctk.CTkCheckBox(self, text="Line-In", variable=self.line_in_var, command=self.route_line_in)
         self.line_in.pack()
 
         # Loop Import
@@ -54,13 +54,29 @@ class ChannelStrip(ctk.CTkFrame):
 
         # Volume & Pan
         self._add_label("Volume")
-        self.volume = ctk.CTkSlider(self, from_=0, to=100)
+        self.volume = ctk.CTkSlider(self, from_=0, to=100, command=self.set_volume)
         self.volume.pack()
 
         self._add_label("Pan")
-        self.pan = ctk.CTkSlider(self, from_=-1, to=1)
+        self.pan = ctk.CTkSlider(self, from_=-1, to=1, command=self.set_pan)
         self.pan.pack()
 
     def _add_label(self, text):
         lbl = ctk.CTkLabel(self, text=text)
         lbl.pack(pady=(8, 2))
+
+    def route_line_in(self):
+        # Placeholder for routing external line-in
+        print(f"Routing external line-in to channel {self.channel_id}")
+
+    def load_vst3_plugin(self):
+        # Placeholder for loading VST3 plugin
+        print(f"Loading VST3 plugin for channel {self.channel_id}")
+
+    def set_volume(self, value):
+        # Placeholder for setting volume
+        print(f"Setting volume for channel {self.channel_id} to {value}")
+
+    def set_pan(self, value):
+        # Placeholder for setting pan
+        print(f"Setting pan for channel {self.channel_id} to {value}")

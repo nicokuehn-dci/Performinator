@@ -1,4 +1,4 @@
-from PyQt5.QtWidgets import QWizard, QWizardPage, QVBoxLayout, QPushButton, QComboBox, QLabel, QFileDialog, QMessageBox
+from PyQt5.QtWidgets import QWizard, QWizardPage, QVBoxLayout, QPushButton, QComboBox, QLabel, QFileDialog, QMessageBox, QSlider
 from .dialogs.device_config import AudioDeviceDialog
 from ..config.settings import AudioMIDISettings
 import subprocess
@@ -130,6 +130,18 @@ class OptionsPage(QWizardPage):
         self.upload_text_file_button = QPushButton("Upload Text File for AI Learning")
         self.upload_text_file_button.clicked.connect(self.upload_text_file)
         layout.addWidget(self.upload_text_file_button)
+        
+        self.volume_slider = QSlider()
+        self.volume_slider.setRange(0, 100)
+        self.volume_slider.setValue(80)
+        layout.addWidget(QLabel("Volume:"))
+        layout.addWidget(self.volume_slider)
+        
+        self.pan_slider = QSlider()
+        self.pan_slider.setRange(-100, 100)
+        self.pan_slider.setValue(0)
+        layout.addWidget(QLabel("Pan:"))
+        layout.addWidget(self.pan_slider)
         
         self.setLayout(layout)
         
@@ -325,6 +337,18 @@ class OptionsPage(QWizardPage):
         self.upload_text_file_button = QPushButton("Upload Text File for AI Learning")
         self.upload_text_file_button.clicked.connect(self.upload_text_file)
         layout.addWidget(self.upload_text_file_button)
+        
+        self.volume_slider = QSlider()
+        self.volume_slider.setRange(0, 100)
+        self.volume_slider.setValue(80)
+        layout.addWidget(QLabel("Volume:"))
+        layout.addWidget(self.volume_slider)
+        
+        self.pan_slider = QSlider()
+        self.pan_slider.setRange(-100, 100)
+        self.pan_slider.setValue(0)
+        layout.addWidget(QLabel("Pan:"))
+        layout.addWidget(self.pan_slider)
         
         self.setLayout(layout)
         

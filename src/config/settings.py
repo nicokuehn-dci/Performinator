@@ -2,7 +2,7 @@ import os
 import json
 
 class AudioMIDISettings:
-    def __init__(self, sample_rate=44100, buffer_size=512, midi_device="default", magenta_studio_path="", db_path="learning_data.db", pattern_save_path="patterns"):
+    def __init__(self, sample_rate=44100, buffer_size=512, midi_device="default", magenta_studio_path="", db_path="learning_data.db", pattern_save_path="patterns", volume=0.8, pan=0.0, line_in_channel=1, vst3_plugin_path=""):
         script_dir = os.path.dirname(os.path.abspath(__file__))
         self.sample_rate = sample_rate
         self.buffer_size = buffer_size
@@ -10,6 +10,10 @@ class AudioMIDISettings:
         self.magenta_studio_path = os.path.join(script_dir, magenta_studio_path)
         self.db_path = db_path
         self.pattern_save_path = os.path.join(script_dir, pattern_save_path)
+        self.volume = volume
+        self.pan = pan
+        self.line_in_channel = line_in_channel
+        self.vst3_plugin_path = os.path.join(script_dir, vst3_plugin_path)
 
     def load_settings(self, settings_dict):
         self.sample_rate = settings_dict.get("sample_rate", self.sample_rate)
@@ -18,6 +22,10 @@ class AudioMIDISettings:
         self.magenta_studio_path = settings_dict.get("magenta_studio_path", self.magenta_studio_path)
         self.db_path = settings_dict.get("db_path", self.db_path)
         self.pattern_save_path = settings_dict.get("pattern_save_path", self.pattern_save_path)
+        self.volume = settings_dict.get("volume", self.volume)
+        self.pan = settings_dict.get("pan", self.pan)
+        self.line_in_channel = settings_dict.get("line_in_channel", self.line_in_channel)
+        self.vst3_plugin_path = settings_dict.get("vst3_plugin_path", self.vst3_plugin_path)
 
     def save_settings(self):
         return {
@@ -26,7 +34,11 @@ class AudioMIDISettings:
             "midi_device": self.midi_device,
             "magenta_studio_path": self.magenta_studio_path,
             "db_path": self.db_path,
-            "pattern_save_path": self.pattern_save_path
+            "pattern_save_path": self.pattern_save_path,
+            "volume": self.volume,
+            "pan": self.pan,
+            "line_in_channel": self.line_in_channel,
+            "vst3_plugin_path": self.vst3_plugin_path
         }
 
     def save_to_json(self, file_path):

@@ -3,6 +3,8 @@ audio:
   buffer_size: 512
   default_path: ~/samples
   audio_engine: pipewire
+  default_volume: 0.8
+  default_pan: 0.0
 
 midi:
   default_port: 0
@@ -15,3 +17,10 @@ gui:
 
 loops:
   default_loop_path: ~/loops
+
+external_line_in:
+  enabled: true
+  default_channel: 1
+
+vst3_plugins:
+  default_path: ~/vst3_plugins

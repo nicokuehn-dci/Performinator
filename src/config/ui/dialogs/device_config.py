@@ -1,5 +1,5 @@
 from PyQt5.QtWidgets import (
-    QDialog, QVBoxLayout, QComboBox, QListWidget, QSpinBox, QLabel
+    QDialog, QVBoxLayout, QComboBox, QListWidget, QSpinBox, QLabel, QSlider
 )
 import sounddevice as sd
 
@@ -35,4 +35,22 @@ class AudioDeviceDialog(QDialog):
         layout.addWidget(QLabel("AI Protocol:"))
         layout.addWidget(self.ai_protocol_combo)
         
+        self.volume_slider = QSlider()
+        self.volume_slider.setRange(0, 100)
+        self.volume_slider.setValue(80)
+        layout.addWidget(QLabel("Volume:"))
+        layout.addWidget(self.volume_slider)
+        
+        self.pan_slider = QSlider()
+        self.pan_slider.setRange(-100, 100)
+        self.pan_slider.setValue(0)
+        layout.addWidget(QLabel("Pan:"))
+        layout.addWidget(self.pan_slider)
+        
         self.setLayout(layout)
+        
+    def route_line_in(self, channel_id):
+        print(f"Routing external line-in to channel {channel_id}.")
+        
+    def load_vst3_plugin(self, path, channel_id):
+        print(f"Loaded VST3 Plugin: {path} → Channel {channel_id}")

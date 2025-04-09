@@ -227,6 +227,18 @@ class MainWindow(ctk.CTk):
     def show_cloud_feature_message(self):
         CTkMessageBox.showinfo("Coming Soon", "This feature is coming later.")
 
+    def set_volume(self, channel_id, value):
+        self.audio_engine.set_volume(channel_id, value)
+
+    def set_pan(self, channel_id, value):
+        self.audio_engine.set_pan(channel_id, value)
+
+    def route_line_in(self, channel_id):
+        self.audio_engine.route_line_in(channel_id)
+
+    def load_vst3_plugin(self, path, channel_id):
+        self.audio_engine.load_vst3_plugin(path, channel_id)
+
 def main():
     app = ctk.CTk()
     window = MainWindow()
