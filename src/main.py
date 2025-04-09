@@ -15,6 +15,8 @@ from pedalboard import Pedalboard
 from src.audio.engine import AudioEngine
 import logging
 import pipewire as pw
+import os
+from src.sampler.sample_control import SampleControl
 
 # Set up logging
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
@@ -238,6 +240,43 @@ class MainWindow(ctk.CTk):
 
     def load_vst3_plugin(self, path, channel_id):
         self.audio_engine.load_vst3_plugin(path, channel_id)
+
+class SamplerInterface(ctk.CTkFrame):
+    def __init__(self, master, sampler_loader, *args, **kwargs):
+        super().__init__(master, *args, **kwargs)
+        self.sampler_loader = sampler_loader
+        self.sample_controls = {}
+
+        # Button to load sample
+        self.load_button = ctk.CTkButton(self, text="Load Sample", command=self.load_sample)
+        self.load_button.pack(pady=10)
+
+        # Listbox to display samples
+        self.sample_listbox = ctk.CTkListbox(self)
+        self.sample_listbox.pack(pady=10)
+
+    def load_sample(self):
+        try:
+            sample_path = self.sampler_loader.load_sample()
+            if sample_path:
+                sample_name = os.path.basename(sample_path)
+                self.sample_controls[sample_name] = SampleControl(sample_name)
+                self.sample_listbox.insert(ctk.END, sample_name)
+        except Exception as e:
+            logger.error(f"Error loading sample: {e}")
+
+    def control_sample(self, sample_name, action):
+        if sample_name in self.sample_controls:
+            sample_control = self.sample_controls[sample_name]
+            if action == "play":
+                sample_control.play()
+            elif action == "stop":
+                sample_control.stop()
+            elif action == "loop":
+                sample_control.toggle_loop()
+            elif action == "pitch":
+                new_pitch = float(input("Set pitch value: "))
+                sample_control.set_pitch(new_pitch)
 
 def main():
     app = ctk.CTk()
