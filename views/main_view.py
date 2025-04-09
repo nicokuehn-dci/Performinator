@@ -1,9 +1,12 @@
-import customtkinter as ctk
+import tkinter as tk
+from ttkbootstrap import Frame
 from views.sidebar import Sidebar
 from views.topbar import Topbar
 from views.content import ContentArea
 
-class MainView(ctk.CTkFrame):
+GLOW_ORANGE = "#FF8000"
+
+class MainView(Frame):
     def __init__(self, master):
         super().__init__(master)
 
@@ -18,3 +21,7 @@ class MainView(ctk.CTkFrame):
 
         self.grid_columnconfigure(1, weight=1)
         self.grid_rowconfigure(1, weight=1)
+
+        self.saturation = ctk.CTkCheckBox(self, text="Saturation",
+                                          fg_color=GLOW_ORANGE,
+                                          hover_color=GLOW_ORANGE)
