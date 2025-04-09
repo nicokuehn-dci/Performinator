@@ -42,6 +42,24 @@ class LoopLoader:
         else:
             print("[LoopLoader] No loop loaded.")
 
+class ArtistProfileForm(ctk.CTkFrame):
+    def __init__(self, master, *args, **kwargs):
+        super().__init__(master, *args, **kwargs)
+        self.artist_name_label = ctk.CTkLabel(self, text="Artist Name:")
+        self.artist_name_label.pack(pady=5)
+        self.artist_name_entry = ctk.CTkEntry(self)
+        self.artist_name_entry.pack(pady=5)
+
+        self.profile_picture_label = ctk.CTkLabel(self, text="Profile Picture (URL or File Path):")
+        self.profile_picture_label.pack(pady=5)
+        self.profile_picture_entry = ctk.CTkEntry(self)
+        self.profile_picture_entry.pack(pady=5)
+
+    def get_artist_profile(self):
+        artist_name = self.artist_name_entry.get()
+        profile_picture = self.profile_picture_entry.get()
+        return artist_name, profile_picture
+
 def setup_virtualenv():
     try:
         logger.info("🔧 Setting up virtual environment...")
