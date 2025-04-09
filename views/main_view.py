@@ -1,10 +1,9 @@
-import tkinter as tk
-from ttkbootstrap import Frame
+import customtkinter as ctk
 from views.sidebar import Sidebar
 from views.topbar import Topbar
 from views.content import ContentArea
 
-class MainView(Frame):
+class MainView(ctk.CTkFrame):
     def __init__(self, master):
         super().__init__(master)
 

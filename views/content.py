@@ -1,7 +1,7 @@
-from ttkbootstrap import Frame, Label
+import customtkinter as ctk
 
-class ContentArea(Frame):
+class ContentArea(ctk.CTkFrame):
     def __init__(self, master):
         super().__init__(master, padding=10)
 
-        Label(self, text="Welcome to Performinator!", font=("Helvetica", 12)).pack()
+        ctk.CTkLabel(self, text="Welcome to Performinator!", font=("Helvetica", 12)).pack()

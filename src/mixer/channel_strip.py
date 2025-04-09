@@ -1,55 +1,66 @@
-from PyQt5.QtWidgets import QWidget, QSlider, QLabel, QVBoxLayout, QHBoxLayout, QLineEdit
-from PyQt5.QtCore import Qt, pyqtSignal
-import logging
+import customtkinter as ctk
 
-class ChannelStrip(QWidget):
-    volume_changed = pyqtSignal(float)  # 0.0-1.0
-    pan_changed = pyqtSignal(float)     # -1.0 (left) to 1.0 (right)
-    track_name_changed = pyqtSignal(str)  # Track name changed
+class ChannelStrip(ctk.CTkFrame):
+    def __init__(self, master, channel_id, *args, **kwargs):
+        super().__init__(master, *args, **kwargs)
+        self.channel_id = channel_id
+        self.configure(border_width=2, corner_radius=8)
 
-    def __init__(self):
-        super().__init__()
-        
-        layout = QVBoxLayout()
-        
-        # Track Name
-        self.track_name_input = QLineEdit()
-        self.track_name_input.setPlaceholderText("Track Name")
-        self.track_name_input.textChanged.connect(self._on_track_name_changed)
-        layout.addWidget(self.track_name_input)
-        
-        # Volume Slider
-        self.volume_slider = QSlider(Qt.Vertical)
-        self.volume_slider.setRange(0, 100)
-        self.volume_slider.setValue(75)
-        self.volume_slider.valueChanged.connect(self._on_volume_changed)
-        layout.addWidget(QLabel("Volume"))
-        layout.addWidget(self.volume_slider)
-        
-        # Pan Control
-        self.pan_slider = QSlider(Qt.Vertical)
-        self.pan_slider.setRange(-50, 50)
-        self.pan_slider.setValue(0)
-        self.pan_slider.valueChanged.connect(self._on_pan_changed)
-        layout.addWidget(QLabel("Pan"))
-        layout.addWidget(self.pan_slider)
-        
-        self.setLayout(layout)
+        # Channel Label
+        self.label = ctk.CTkLabel(self, text=f"Channel {channel_id}", font=("Arial", 14, "bold"))
+        self.label.pack(pady=4)
 
-    def _on_volume_changed(self, value):
-        try:
-            self.volume_changed.emit(value / 100.0)
-        except Exception as e:
-            logging.error(f"Error in volume change: {e}")
+        # Preamp
+        self.preamp = ctk.CTkSlider(self, from_=0, to=10)
+        self._add_label("Preamp")
+        self.preamp.pack()
 
-    def _on_pan_changed(self, value):
-        try:
-            self.pan_changed.emit(value / 50.0)
-        except Exception as e:
-            logging.error(f"Error in pan change: {e}")
-        
-    def _on_track_name_changed(self, name):
-        try:
-            self.track_name_changed.emit(name)
-        except Exception as e:
-            logging.error(f"Error in track name change: {e}")
+        # EQ Section
+        self._add_label("EQ - Low / Mid / High")
+        self.eq_low = ctk.CTkSlider(self, from_=-12, to=12)
+        self.eq_mid = ctk.CTkSlider(self, from_=-12, to=12)
+        self.eq_high = ctk.CTkSlider(self, from_=-12, to=12)
+        self.eq_low.pack()
+        self.eq_mid.pack()
+        self.eq_high.pack()
+
+        # Compressor
+        self._add_label("Compressor")
+        self.compressor = ctk.CTkSlider(self, from_=0, to=10)
+        self.compressor.pack()
+
+        # VST3 Slot (Placeholder)
+        self._add_label("VST3 Slot")
+        self.vst_button = ctk.CTkButton(self, text="Load VST3")
+        self.vst_button.pack(pady=2)
+
+        # Saturation / Tape
+        self.sat_var = ctk.BooleanVar()
+        self.tape_var = ctk.BooleanVar()
+        self.saturation = ctk.CTkCheckBox(self, text="Saturation", variable=self.sat_var)
+        self.tape = ctk.CTkCheckBox(self, text="Tape", variable=self.tape_var)
+        self.saturation.pack()
+        self.tape.pack()
+
+        # Line-In
+        self.line_in_var = ctk.BooleanVar()
+        self.line_in = ctk.CTkCheckBox(self, text="Line-In", variable=self.line_in_var)
+        self.line_in.pack()
+
+        # Loop Import
+        self._add_label("Loop")
+        self.loop_button = ctk.CTkButton(self, text="Import Loop")
+        self.loop_button.pack(pady=2)
+
+        # Volume & Pan
+        self._add_label("Volume")
+        self.volume = ctk.CTkSlider(self, from_=0, to=100)
+        self.volume.pack()
+
+        self._add_label("Pan")
+        self.pan = ctk.CTkSlider(self, from_=-1, to=1)
+        self.pan.pack()
+
+    def _add_label(self, text):
+        lbl = ctk.CTkLabel(self, text=text)
+        lbl.pack(pady=(8, 2))

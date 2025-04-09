@@ -2,7 +2,8 @@ import sys
 import sounddevice as sounddevice
 import numpy as np
 from threading import Thread, Lock
-from PyQt5.QtWidgets import QApplication, QMainWindow, QDockWidget, QWidget, QVBoxLayout, QPushButton, QLineEdit, QLabel, QMessageBox
+import customtkinter as ctk
+from customtkinter import CTkMessageBox
 from gui.elektron_menu import ElektronMenu
 from gui.performance_grid import PerformanceGrid
 from gui.transport_controls import TransportControls
@@ -19,7 +20,7 @@ import pipewire as pw
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
 logger = logging.getLogger(__name__)
 
-class MainWindow(QMainWindow):
+class MainWindow(ctk.CTk):
     def __init__(self):
         super().__init__()
         self.sampler = SamplerEngine()
@@ -35,67 +36,68 @@ class MainWindow(QMainWindow):
             sys.exit(1)
         
     def _setup_ui(self):
+        self.title("Performinator")
+        self.geometry("1280x720")
+
         # Central waveform editor
         self.waveform_editor = WaveformEditor()
-        self.setCentralWidget(self.waveform_editor)
+        self.waveform_editor.pack(fill="both", expand=True)
         
-        # Dock widgets
-        self.mixer_dock = QDockWidget("Mixer", self)
-        self.mixer_dock.setWidget(ChannelStrip())
-        self.addDockWidget(2, self.mixer_dock)
+        # Mixer
+        self.mixer_frame = ctk.CTkFrame(self)
+        self.mixer_frame.pack(side="left", fill="y")
+        for i in range(8):
+            strip = ChannelStrip(self.mixer_frame, channel_id=i+1)
+            strip.pack(pady=5)
         
-        self.grid = PerformanceGrid()
-        grid_widget = QWidget()
-        grid_widget.setLayout(self.grid)
-        self.addDockWidget(1, QDockWidget("Performance Grid", self)).setWidget(grid_widget)
+        # Performance Grid
+        self.grid = PerformanceGrid(self)
+        self.grid.pack(side="right", fill="both", expand=True)
         
         # Elektron-style menu
-        self.menu = ElektronMenu()
-        self.addDockWidget(1, QDockWidget("Controls", self)).setWidget(self.menu)
+        self.menu = ElektronMenu(self)
+        self.menu.pack(side="top", fill="x")
         
         # Transport controls
-        self.transport_controls = TransportControls()
-        self.addDockWidget(1, QDockWidget("Transport", self)).setWidget(self.transport_controls)
+        self.transport_controls = TransportControls(self)
+        self.transport_controls.pack(side="bottom", fill="x")
 
         # Connect menu actions to functions
-        self.menu.file_menu.actions()[0].triggered.connect(self.new_file)
-        self.menu.file_menu.actions()[1].triggered.connect(self.open_file)
-        self.menu.file_menu.actions()[2].triggered.connect(self.save_file)
-        self.menu.file_menu.actions()[3].triggered.connect(self.select_ai_protocol)
-        self.menu.file_menu.actions()[4].triggered.connect(self.exit_app)
-        self.menu.edit_menu.actions()[0].triggered.connect(self.undo)
-        self.menu.edit_menu.actions()[1].triggered.connect(self.redo)
-        self.menu.edit_menu.actions()[2].triggered.connect(self.cut)
-        self.menu.edit_menu.actions()[3].triggered.connect(self.copy)
-        self.menu.edit_menu.actions()[4].triggered.connect(self.paste)
-        self.menu.view_menu.actions()[0].triggered.connect(self.zoom_in)
-        self.menu.view_menu.actions()[1].triggered.connect(self.zoom_out)
-        self.menu.view_menu.actions()[2].triggered.connect(self.toggle_full_screen)
-        self.menu.help_menu.actions()[0].triggered.connect(self.show_about)
-        self.menu.help_menu.actions()[1].triggered.connect(self.show_help)
-        self.menu.options_menu.actions()[0].triggered.connect(self.audio_settings)
-        self.menu.options_menu.actions()[1].triggered.connect(self.midi_settings)
-        self.menu.options_menu.actions()[2].triggered.connect(self.ai_protocol_settings)
-        self.menu.options_menu.actions()[3].triggered.connect(self.rescan_audio_library)  # Pcf00
-        self.menu.options_menu.actions()[4].triggered.connect(self.show_cloud_feature_message)  # P1726
-        self.menu.components_menu.actions()[0].triggered.connect(self.add_component)
-        self.menu.components_menu.actions()[1].triggered.connect(self.remove_component)
-        self.menu.components_menu.actions()[2].triggered.connect(self.manage_components)
+        self.menu.file_menu.actions()[0].configure(command=self.new_file)
+        self.menu.file_menu.actions()[1].configure(command=self.open_file)
+        self.menu.file_menu.actions()[2].configure(command=self.save_file)
+        self.menu.file_menu.actions()[3].configure(command=self.select_ai_protocol)
+        self.menu.file_menu.actions()[4].configure(command=self.exit_app)
+        self.menu.edit_menu.actions()[0].configure(command=self.undo)
+        self.menu.edit_menu.actions()[1].configure(command=self.redo)
+        self.menu.edit_menu.actions()[2].configure(command=self.cut)
+        self.menu.edit_menu.actions()[3].configure(command=self.copy)
+        self.menu.edit_menu.actions()[4].configure(command=self.paste)
+        self.menu.view_menu.actions()[0].configure(command=self.zoom_in)
+        self.menu.view_menu.actions()[1].configure(command=self.zoom_out)
+        self.menu.view_menu.actions()[2].configure(command=self.toggle_full_screen)
+        self.menu.help_menu.actions()[0].configure(command=self.show_about)
+        self.menu.help_menu.actions()[1].configure(command=self.show_help)
+        self.menu.options_menu.actions()[0].configure(command=self.audio_settings)
+        self.menu.options_menu.actions()[1].configure(command=self.midi_settings)
+        self.menu.options_menu.actions()[2].configure(command=self.ai_protocol_settings)
+        self.menu.options_menu.actions()[3].configure(command=self.rescan_audio_library)
+        self.menu.options_menu.actions()[4].configure(command=self.show_cloud_feature_message)
+        self.menu.components_menu.actions()[0].configure(command=self.add_component)
+        self.menu.components_menu.actions()[1].configure(command=self.remove_component)
+        self.menu.components_menu.actions()[2].configure(command=self.manage_components)
 
         # Connect button actions to functions
-        self.grid.play_button.clicked.connect(self.play)
-        self.grid.stop_button.clicked.connect(self.stop)
-        self.grid.record_button.clicked.connect(self.record)
+        self.grid.play_button.configure(command=self.play)
+        self.grid.stop_button.configure(command=self.stop)
+        self.grid.record_button.configure(command=self.record)
 
         # Add UI elements for saving and loading patterns
-        self.save_pattern_button = QPushButton("Save Pattern")
-        self.load_pattern_button = QPushButton("Load Pattern")
-        self.pattern_name_input = QLineEdit()
-        self.pattern_name_input.setPlaceholderText("Pattern Name")
-        self.pattern_status_label = QLabel()
-
-        self.save_pattern_button.clicked.connect(self.save_pattern)
-        self.load_pattern_button.clicked.connect(self.load_pattern)
+        self.save_pattern_button = ctk.CTkButton(self, text="Save Pattern", command=self.save_pattern)
+        self.load_pattern_button = ctk.CTkButton(self, text="Load Pattern", command=self.load_pattern)
+        self.pattern_name_input = ctk.CTkEntry(self)
+        self.pattern_name_input.insert(0, "Pattern Name")
+        self.pattern_status_label = ctk.CTkLabel(self)
 
         self.grid.layout.addWidget(self.pattern_name_input)
         self.grid.layout.addWidget(self.save_pattern_button)
@@ -198,39 +200,38 @@ class MainWindow(QMainWindow):
         # Implement the logic to handle Manage Components
 
     def save_pattern(self):
-        pattern_name = self.pattern_name_input.text()
+        pattern_name = self.pattern_name_input.get()
         if pattern_name:
             pattern = self.sampler.generate_drum_pattern()  # Example pattern generation
             self.sampler.save_pattern(pattern_name, pattern)
-            self.pattern_status_label.setText(f"Pattern '{pattern_name}' saved.")
+            self.pattern_status_label.configure(text=f"Pattern '{pattern_name}' saved.")
         else:
-            self.pattern_status_label.setText("Please enter a pattern name.")
+            self.pattern_status_label.configure(text="Please enter a pattern name.")
 
     def load_pattern(self):
-        pattern_name = self.pattern_name_input.text()
+        pattern_name = self.pattern_name_input.get()
         if pattern_name:
             pattern = self.sampler.load_pattern(pattern_name)
             if pattern:
-                self.pattern_status_label.setText(f"Pattern '{pattern_name}' loaded.")
+                self.pattern_status_label.configure(text=f"Pattern '{pattern_name}' loaded.")
                 # Implement logic to use the loaded pattern
             else:
-                self.pattern_status_label.setText(f"Pattern '{pattern_name}' not found.")
+                self.pattern_status_label.configure(text=f"Pattern '{pattern_name}' not found.")
         else:
-            self.pattern_status_label.setText("Please enter a pattern name.")
+            self.pattern_status_label.configure(text="Please enter a pattern name.")
 
-    def rescan_audio_library(self):  # Pdbe2
+    def rescan_audio_library(self):
         logger.info("Rescan Audio Library action triggered")
         self.sampler.rescan_audio_library()
 
     def show_cloud_feature_message(self):
-        QMessageBox.information(self, "Coming Soon", "This feature is coming later.")  # P1726
+        CTkMessageBox.showinfo("Coming Soon", "This feature is coming later.")
 
 def main():
-    app = QApplication(sys.argv)
+    app = ctk.CTk()
     window = MainWindow()
-    window.setGeometry(100, 100, 1280, 720)
-    window.show()
-    sys.exit(app.exec_())
+    window.geometry("1280x720")
+    window.mainloop()
 
 if __name__ == "__main__":
     try:
