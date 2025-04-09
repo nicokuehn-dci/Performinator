@@ -69,3 +69,20 @@ def quantize_loop_to_bpm(audio_data, sr, bpm):
     except Exception as e:
         logger.error(f"Error quantizing loop to BPM {bpm}: {e}")
         return None
+
+def load_sample(file_path):
+    """Load a sample file using librosa"""
+    try:
+        y, sr = librosa.load(file_path, sr=None, mono=True)
+        return y, sr
+    except Exception as e:
+        logger.error(f"Error loading sample file {file_path}: {e}")
+        return None, None
+
+def get_sample(sample_name, samples_dict):
+    """Retrieve a sample by its name from the samples dictionary"""
+    try:
+        return samples_dict.get(sample_name, None)
+    except Exception as e:
+        logger.error(f"Error retrieving sample {sample_name}: {e}")
+        return None

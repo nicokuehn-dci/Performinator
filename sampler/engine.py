@@ -6,6 +6,7 @@ import logging
 import random
 import json
 import os
+from src.utils.learning_manager import SamplerLoader
 
 # Set up logging
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
@@ -36,6 +37,7 @@ class SamplerEngine:
         self.automation_lanes = []
         self.swing = {'global': 0.0, 'channels': {}}
         self.patterns = {}
+        self.sampler_loader = SamplerLoader()
         self._setup_multitrack()
         self._setup_automation_lanes()
 
@@ -51,21 +53,16 @@ class SamplerEngine:
             bool: True if the sample was loaded successfully
         """
         try:
-            audio_data, sr = load_audio_file(file_path)
-            bpm = self._detect_bpm(audio_data, sr)
-            quantized_audio = self._quantize_to_bpm(audio_data, sr, bpm)
-            sample_data = {
-                'data': quantized_audio,
-                'sr': sr,
-                'length': len(quantized_audio),
-                'key': self._detect_key(quantized_audio, sr),
-                'bpm': bpm
-            }
-            if is_loop:
-                self.loops[name] = sample_data
-            else:
-                self.samples[name] = sample_data
-            return True
+            sample_path = self.sampler_loader.load_sample(file_path)
+            if sample_path:
+                sample_name = os.path.basename(sample_path)
+                sample_data = self.sampler_loader.get_sample(sample_name)
+                if is_loop:
+                    self.loops[name] = sample_data
+                else:
+                    self.samples[name] = sample_data
+                return True
+            return False
         except Exception as e:
             logger.error(f"Error loading sample {name} from {file_path}: {e}")
             return False

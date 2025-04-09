@@ -17,6 +17,7 @@ import logging
 import pipewire as pw
 import os
 from src.sampler.sample_control import SampleControl
+from src.utils.learning_manager import SamplerLoader
 
 # Set up logging
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
@@ -25,7 +26,8 @@ logger = logging.getLogger(__name__)
 class MainWindow(ctk.CTk):
     def __init__(self):
         super().__init__()
-        self.sampler = SamplerEngine()
+        self.sampler_loader = SamplerLoader()
+        self.sampler = SamplerEngine(self.sampler_loader)
         self.midi_mapper = MidiMapper()
         self.midi_mapper.start_listening_thread()
         self._setup_ui()
