@@ -39,7 +39,8 @@ try:
             'alsa>=1.2.4',
             'magenta-studio>=1.0.0',  # Added dependency for Magenta Studio
             'aiva>=1.0.0',  # Added dependency for AIVA
-            'chatgpt4-music-plugins>=1.0.0'  # Added dependency for ChatGPT-4 Music Plugins
+            'chatgpt4-music-plugins>=1.0.0',  # Added dependency for ChatGPT-4 Music Plugins
+            'mutagen'  # Added dependency for mutagen
         ],
         entry_points={
             'console_scripts': [
