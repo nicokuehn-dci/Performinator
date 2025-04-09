@@ -60,6 +60,46 @@ class ArtistProfileForm(ctk.CTkFrame):
         profile_picture = self.profile_picture_entry.get()
         return artist_name, profile_picture
 
+class NewProjectForm(ctk.CTkFrame):
+    def __init__(self, master, *args, **kwargs):
+        super().__init__(master, *args, **kwargs)
+
+        self.genre_label = ctk.CTkLabel(self, text="Genre:")
+        self.genre_label.pack(pady=5)
+        self.genre_dropdown = ctk.CTkOptionMenu(self, values=["Pop", "Rock", "Electronic", "Jazz"])
+        self.genre_dropdown.pack(pady=5)
+
+        self.bpm_label = ctk.CTkLabel(self, text="BPM:")
+        self.bpm_label.pack(pady=5)
+        self.bpm_entry = ctk.CTkEntry(self)
+        self.bpm_entry.pack(pady=5)
+
+        self.scale_label = ctk.CTkLabel(self, text="Scale:")
+        self.scale_label.pack(pady=5)
+        self.scale_dropdown = ctk.CTkOptionMenu(self, values=["Major", "Minor", "Pentatonic", "Blues"])
+        self.scale_dropdown.pack(pady=5)
+
+        self.create_button = ctk.CTkButton(self, text="Create New Project", command=self.create_project)
+        self.create_button.pack(pady=10)
+
+    def create_project(self):
+        genre = self.genre_dropdown.get()
+        bpm = self.bpm_entry.get()
+        scale = self.scale_dropdown.get()
+
+        project_details = {
+            "genre": genre,
+            "bpm": bpm,
+            "scale": scale
+        }
+
+        project_path = os.path.join("projects", f"{genre}_{bpm}_{scale}.txt")
+        with open(project_path, "w") as file:
+            file.write(str(project_details))
+
+        print(f"New Project Created: Genre={genre}, BPM={bpm}, Scale={scale}")
+        print(f"Project details saved to {project_path}")
+
 def setup_virtualenv():
     try:
         logger.info("🔧 Setting up virtual environment...")
