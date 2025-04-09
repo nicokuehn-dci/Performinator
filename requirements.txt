@@ -12,6 +12,7 @@ soundfile==0.12.1  # Added for audio file I/O
 # MIDI
 mido==1.2.10
 python-rtmidi==1.5.6
+rtmidi==4.0.4  # Added for MIDI input and output
 
 # Config
 configparser==5.3.0

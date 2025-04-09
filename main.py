@@ -7,6 +7,7 @@ from pyudev import Context, Monitor, MonitorObserver  # For MIDI hotplug
 from src.utils.learning_manager import LearningManager
 from tkinter import filedialog
 import customtkinter as ctk
+from src.audio.midi_handler import MidiController
 
 # Set up logging
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
@@ -131,6 +132,12 @@ def main():
         monitor_midi_hotplug()  # Start MIDI hotplug monitoring
         learning_manager = LearningManager()
         learning_manager.capture_user_input("Setup and dependencies installed")
+        
+        # Instantiate and use MidiController
+        midi_controller = MidiController()
+        midi_controller.open_port()
+        midi_controller.listen_for_cc()
+        
         launch_electron_app()
         learning_manager.capture_user_output("Performinator launched")
     except Exception as e:
