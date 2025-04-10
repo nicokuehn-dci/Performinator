@@ -7,7 +7,7 @@ import shutil
 import argparse
 import logging
 from PyQt5.QtWidgets import QApplication, QSplashScreen
-from PyQt5.QtCore import Qt
+from PyQt5.QtCore import Qt, QTimer
 from src.utils.learning_manager import LearningManager
 
 # Configuration
@@ -203,13 +203,14 @@ def show_splash():
     splash.setStyleSheet(
         "background-color: #121212; color: #00ffee; font-size: 24px;"
     )
+    splash.resize(splash.size().width() + 20, splash.size().height() + 20)  # Increase size by 2 cm (20 pixels)
     splash.showMessage(
         "🐧 Performinator is warming up...",
         Qt.AlignCenter
     )
     splash.show()
     app.processEvents()
-    splash.close()
+    QTimer.singleShot(3000, splash.close)  # Display for 3 seconds
 
 def main():
     args = parse_args()
