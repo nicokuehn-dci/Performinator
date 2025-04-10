@@ -1,28 +1,45 @@
 import customtkinter as ctk
+import tkinter as tk
+import json
 
 # Apply custom theme settings
 def apply_custom_theme():
     ctk.set_appearance_mode("dark")  # Set dark mode
-    ctk.set_default_color_theme({
+
+    # Save the theme dictionary as a JSON file
+    theme_path = "custom_theme.json"
+    theme_data = {
         "button": {"fg_color": "#FF4500", "hover_color": "#FF6347", "border_color": "#FF4500"},
         "label": {"text_color": "#FF4500"},
         "entry": {"fg_color": "#2E2E2E", "text_color": "#FF4500"}
-    })
+    }
+    with open(theme_path, "w") as theme_file:
+        json.dump(theme_data, theme_file)
+
+    # Use the JSON file path for the theme
+    ctk.set_default_color_theme(theme_path)
 
 apply_custom_theme()
 
-class ElektronMenu(ctk.CTkMenu):
+class ElektronMenu(tk.Menu):
     def __init__(self, parent=None):
         super().__init__(parent)
         self._create_menus()
 
     def _create_menus(self):
-        self.file_menu = self.add_menu("File")
-        self.edit_menu = self.add_menu("Edit")
-        self.view_menu = self.add_menu("View")
-        self.help_menu = self.add_menu("Help")
-        self.options_menu = self.add_menu("Options")
-        self.components_menu = self.add_menu("Components")
+        self.file_menu = tk.Menu(self, tearoff=0)
+        self.edit_menu = tk.Menu(self, tearoff=0)
+        self.view_menu = tk.Menu(self, tearoff=0)
+        self.help_menu = tk.Menu(self, tearoff=0)
+        self.options_menu = tk.Menu(self, tearoff=0)
+        self.components_menu = tk.Menu(self, tearoff=0)
+
+        self.add_cascade(label="File", menu=self.file_menu)
+        self.add_cascade(label="Edit", menu=self.edit_menu)
+        self.add_cascade(label="View", menu=self.view_menu)
+        self.add_cascade(label="Help", menu=self.help_menu)
+        self.add_cascade(label="Options", menu=self.options_menu)
+        self.add_cascade(label="Components", menu=self.components_menu)
 
         self._add_file_menu_actions()
         self._add_edit_menu_actions()
@@ -32,97 +49,39 @@ class ElektronMenu(ctk.CTkMenu):
         self._add_components_menu_actions()
 
     def _add_file_menu_actions(self):
-        new_action = ctk.CTkMenuItem(self, text="New")
-        open_action = ctk.CTkMenuItem(self, text="Open")
-        save_action = ctk.CTkMenuItem(self, text="Save")
-        exit_action = ctk.CTkMenuItem(self, text="Exit")
-        select_ai_protocol_action = ctk.CTkMenuItem(self, text="Select AI Protocol")
-
-        self.file_menu.add(new_action)
-        self.file_menu.add(open_action)
-        self.file_menu.add(save_action)
-        self.file_menu.add(select_ai_protocol_action)
-        self.file_menu.add(exit_action)
-
-        new_action.configure(command=self.parent().new_file)
-        open_action.configure(command=self.parent().open_file)
-        save_action.configure(command=self.parent().save_file)
-        select_ai_protocol_action.configure(command=self.parent().select_ai_protocol)
-        exit_action.configure(command=self.parent().exit_app)
+        self.file_menu.add_command(label="New", command=self.parent().new_file)
+        self.file_menu.add_command(label="Open", command=self.parent().open_file)
+        self.file_menu.add_command(label="Save", command=self.parent().save_file)
+        self.file_menu.add_command(label="Select AI Protocol", command=self.parent().select_ai_protocol)
+        self.file_menu.add_command(label="Exit", command=self.parent().exit_app)
 
     def _add_edit_menu_actions(self):
-        undo_action = ctk.CTkMenuItem(self, text="Undo")
-        redo_action = ctk.CTkMenuItem(self, text="Redo")
-        cut_action = ctk.CTkMenuItem(self, text="Cut")
-        copy_action = ctk.CTkMenuItem(self, text="Copy")
-        paste_action = ctk.CTkMenuItem(self, text="Paste")
-
-        self.edit_menu.add(undo_action)
-        self.edit_menu.add(redo_action)
-        self.edit_menu.add(cut_action)
-        self.edit_menu.add(copy_action)
-        self.edit_menu.add(paste_action)
-
-        undo_action.configure(command=self.parent().undo)
-        redo_action.configure(command=self.parent().redo)
-        cut_action.configure(command=self.parent().cut)
-        copy_action.configure(command=self.parent().copy)
-        paste_action.configure(command=self.parent().paste)
+        self.edit_menu.add_command(label="Undo", command=self.parent().undo)
+        self.edit_menu.add_command(label="Redo", command=self.parent().redo)
+        self.edit_menu.add_command(label="Cut", command=self.parent().cut)
+        self.edit_menu.add_command(label="Copy", command=self.parent().copy)
+        self.edit_menu.add_command(label="Paste", command=self.parent().paste)
 
     def _add_view_menu_actions(self):
-        zoom_in_action = ctk.CTkMenuItem(self, text="Zoom In")
-        zoom_out_action = ctk.CTkMenuItem(self, text="Zoom Out")
-        full_screen_action = ctk.CTkMenuItem(self, text="Full Screen")
-
-        self.view_menu.add(zoom_in_action)
-        self.view_menu.add(zoom_out_action)
-        self.view_menu.add(full_screen_action)
-
-        zoom_in_action.configure(command=self.parent().zoom_in)
-        zoom_out_action.configure(command=self.parent().zoom_out)
-        full_screen_action.configure(command=self.parent().toggle_full_screen)
+        self.view_menu.add_command(label="Zoom In", command=self.parent().zoom_in)
+        self.view_menu.add_command(label="Zoom Out", command=self.parent().zoom_out)
+        self.view_menu.add_command(label="Full Screen", command=self.parent().toggle_full_screen)
 
     def _add_help_menu_actions(self):
-        about_action = ctk.CTkMenuItem(self, text="About")
-        help_action = ctk.CTkMenuItem(self, text="Help")
-
-        self.help_menu.add(about_action)
-        self.help_menu.add(help_action)
-
-        about_action.configure(command=self.parent().show_about)
-        help_action.configure(command=self.parent().show_help)
+        self.help_menu.add_command(label="About", command=self.parent().show_about)
+        self.help_menu.add_command(label="Help", command=self.parent().show_help)
 
     def _add_options_menu_actions(self):
-        audio_settings_action = ctk.CTkMenuItem(self, text="Audio Settings")
-        midi_settings_action = ctk.CTkMenuItem(self, text="MIDI Settings")
-        ai_protocol_settings_action = ctk.CTkMenuItem(self, text="AI Protocol Settings")
-        rescan_audio_library_action = ctk.CTkMenuItem(self, text="Rescan Audio Library")
-        cloud_feature_action = ctk.CTkMenuItem(self, text="Cloud Feature")
-
-        self.options_menu.add(audio_settings_action)
-        self.options_menu.add(midi_settings_action)
-        self.options_menu.add(ai_protocol_settings_action)
-        self.options_menu.add(rescan_audio_library_action)
-        self.options_menu.add(cloud_feature_action)
-
-        audio_settings_action.configure(command=self.parent().audio_settings)
-        midi_settings_action.configure(command=self.parent().midi_settings)
-        ai_protocol_settings_action.configure(command=self.parent().ai_protocol_settings)
-        rescan_audio_library_action.configure(command=self.parent().rescan_audio_library)
-        cloud_feature_action.configure(command=self.show_cloud_feature_message)
+        self.options_menu.add_command(label="Audio Settings", command=self.parent().audio_settings)
+        self.options_menu.add_command(label="MIDI Settings", command=self.parent().midi_settings)
+        self.options_menu.add_command(label="AI Protocol Settings", command=self.parent().ai_protocol_settings)
+        self.options_menu.add_command(label="Rescan Audio Library", command=self.parent().rescan_audio_library)
+        self.options_menu.add_command(label="Cloud Feature", command=self.show_cloud_feature_message)
 
     def _add_components_menu_actions(self):
-        add_component_action = ctk.CTkMenuItem(self, text="Add Component")
-        remove_component_action = ctk.CTkMenuItem(self, text="Remove Component")
-        manage_components_action = ctk.CTkMenuItem(self, text="Manage Components")
-
-        self.components_menu.add(add_component_action)
-        self.components_menu.add(remove_component_action)
-        self.components_menu.add(manage_components_action)
-
-        add_component_action.configure(command=self.parent().add_component)
-        remove_component_action.configure(command=self.parent().remove_component)
-        manage_components_action.configure(command=self.parent().manage_components)
+        self.components_menu.add_command(label="Add Component", command=self.parent().add_component)
+        self.components_menu.add_command(label="Remove Component", command=self.parent().remove_component)
+        self.components_menu.add_command(label="Manage Components", command=self.parent().manage_components)
 
     def show_cloud_feature_message(self):
-        ctk.CTkMessageBox.showinfo("Coming Soon", "This feature is coming later.")
+        tk.messagebox.showinfo("Coming Soon", "This feature is coming later.")

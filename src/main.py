@@ -3,10 +3,11 @@ import sounddevice as sounddevice
 import numpy as np
 from threading import Thread, Lock
 import customtkinter as ctk
-from customtkinter import CTkMessageBox
-from gui.elektron_menu import ElektronMenu
-from gui.performance_grid import PerformanceGrid
-from gui.transport_controls import TransportControls
+from tkinter import messagebox
+from src.gui.elektron_menu import ElektronMenu
+from src.gui.performance_grid import PerformanceGrid
+# Comment out missing module
+# from gui.transport_controls import TransportControls
 from sampler.waveform_editor import WaveformEditor
 from sampler.engine import SamplerEngine
 from mixer.channel_strip import ChannelStrip
@@ -28,7 +29,7 @@ class MainWindow(ctk.CTk):
     def __init__(self):
         super().__init__()
         self.sampler_loader = SamplerLoader()
-        self.sampler = SamplerEngine(self.sampler_loader)
+        self.sampler = SamplerEngine()
         self.midi_mapper = MidiMapper()
         self.midi_mapper.start_listening_thread()
         self._setup_ui()
@@ -64,8 +65,8 @@ class MainWindow(ctk.CTk):
         self.menu.pack(side="top", fill="x")
         
         # Transport controls
-        self.transport_controls = TransportControls(self)
-        self.transport_controls.pack(side="bottom", fill="x")
+        # self.transport_controls = TransportControls(self)
+        # self.transport_controls.pack(side="bottom", fill="x")
 
         # Connect menu actions to functions
         self.menu.file_menu.actions()[0].configure(command=self.new_file)
@@ -230,7 +231,7 @@ class MainWindow(ctk.CTk):
         self.sampler.rescan_audio_library()
 
     def show_cloud_feature_message(self):
-        CTkMessageBox.showinfo("Coming Soon", "This feature is coming later.")
+        messagebox.showinfo("Coming Soon", "This feature is coming later.")
 
     def set_volume(self, channel_id, value):
         self.audio_engine.set_volume(channel_id, value)

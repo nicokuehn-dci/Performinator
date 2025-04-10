@@ -54,8 +54,10 @@ function createWindow() {
   });
 
   ipcMain.on('navigate', (event, view) => {
-    // Send the view name to the Python backend
-    pythonProcess.stdin.write(`${view}\n`);
+    console.log(`Navigating to: ${view}`);
+    if (pythonProcess) {
+        pythonProcess.stdin.write(`${view}\n`);
+    }
   });
 
   ipcMain.handle('execute-python-code', async (event, code) => {
@@ -71,6 +73,14 @@ function createWindow() {
         }
       });
     });
+  });
+
+  ipcMain.on('sampler-action', (event, action) => {
+    if (action === 'load-sampler') {
+        console.log('Sampler button clicked');
+        // Here you can invoke Python backend or other logic
+        pythonProcess.stdin.write('sampler\n');
+    }
   });
 }
 

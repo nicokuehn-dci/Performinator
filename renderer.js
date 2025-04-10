@@ -56,6 +56,7 @@ document.addEventListener('DOMContentLoaded', () => {
         button.addEventListener('click', () => {
             const view = button.dataset.view;
             content.innerHTML = views[view] || "<p>Coming soon...</p>";
+            ipcRenderer.send('navigate', view);
         });
     });
 
@@ -86,5 +87,10 @@ document.addEventListener('DOMContentLoaded', () => {
         }).catch(error => {
             pythonOutput.textContent = `Error: ${error.message}`;
         });
+    });
+
+    const samplerButton = document.querySelector("button[data-view='sampler']");
+    samplerButton.addEventListener('click', () => {
+        ipcRenderer.send('sampler-action', 'load-sampler');
     });
 });

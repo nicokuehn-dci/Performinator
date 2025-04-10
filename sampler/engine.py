@@ -1,12 +1,15 @@
+import sys
+import os
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
 import numpy as np
 import librosa
-from .midi_mapper import MidiMapper
-from ..utils.audio_utils import load_audio_file
+from utils.audio_utils import load_audio_file
 import logging
 import random
 import json
-import os
 from src.utils.learning_manager import SamplerLoader
+import rtmidi
 
 # Set up logging
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
@@ -18,7 +21,8 @@ class SamplerEngine:
     Attributes:
         samples (dict): Stores loaded samples with metadata
         loops (dict): Stores loaded loops with metadata
-        midi_mapper (MidiMapper): Handles MIDI input mapping
+        midi_in (rtmidi.MidiIn): Handles MIDI input
+        midi_out (rtmidi.MidiOut): Handles MIDI output
         current_bpm (int): Current beats per minute for playback
         playback_mode (str): Mode of playback (e.g., "one-shot")
         tracks (list): List of tracks for multi-track recording
@@ -30,7 +34,8 @@ class SamplerEngine:
     def __init__(self):
         self.samples = {}
         self.loops = {}
-        self.midi_mapper = MidiMapper()
+        self.midi_in = rtmidi.MidiIn()
+        self.midi_out = rtmidi.MidiOut()
         self.current_bpm = 120
         self.playback_mode = "one-shot"
         self.tracks = []
@@ -40,6 +45,19 @@ class SamplerEngine:
         self.sampler_loader = SamplerLoader()
         self._setup_multitrack()
         self._setup_automation_lanes()
+
+        # Open the first available MIDI input and output ports
+        available_ports = self.midi_in.get_ports()
+        if available_ports:
+            self.midi_in.open_port(0)
+        else:
+            self.midi_in.open_virtual_port("Performinator MIDI Input")
+
+        available_ports = self.midi_out.get_ports()
+        if available_ports:
+            self.midi_out.open_port(0)
+        else:
+            self.midi_out.open_virtual_port("Performinator MIDI Output")
 
     def load_sample(self, file_path, name, is_loop=False):
         """Load an audio file into the sampler.
@@ -132,15 +150,11 @@ class SamplerEngine:
             return audio_data
 
     def map_to_midi(self, sample_name, midi_note):
-        """Map a sample to a MIDI note.
-        
-        Args:
-            sample_name (str): Name of the sample to map
-            midi_note (int): MIDI note number to map the sample to
-        """
+        """Map a sample to a MIDI note."""
         try:
             if sample_name in self.samples:
-                self.midi_mapper.map_note_to_sample(midi_note, sample_name)
+                # Send a MIDI note-on message for the mapped sample
+                self.midi_out.send_message([0x90, midi_note, 127])
         except Exception as e:
             logger.error(f"Error mapping sample {sample_name} to MIDI note {midi_note}: {e}")
 
