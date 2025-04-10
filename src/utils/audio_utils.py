@@ -1,6 +1,7 @@
 import librosa
 from pydub import AudioSegment
 import logging
+import subprocess
 
 # Set up logging
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
@@ -86,3 +87,18 @@ def get_sample(sample_name, samples_dict):
     except Exception as e:
         logger.error(f"Error retrieving sample {sample_name}: {e}")
         return None
+
+def setup_pipewire():
+    """Set up PipeWire for audio processing."""
+    try:
+        # Check if PipeWire is running
+        result = subprocess.run(['systemctl', 'is-active', '--quiet', 'pipewire'], check=False)
+        if result.returncode != 0:
+            logger.info("Starting PipeWire service...")
+            subprocess.run(['systemctl', 'start', 'pipewire'], check=True)
+
+        # Ensure PipeWire is enabled on boot
+        subprocess.run(['systemctl', 'enable', 'pipewire'], check=True)
+        logger.info("PipeWire setup complete.")
+    except Exception as e:
+        logger.error(f"Error setting up PipeWire: {e}")

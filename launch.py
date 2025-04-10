@@ -6,7 +6,10 @@ import platform
 import shutil
 import argparse
 import logging
+import time
 from pathlib import Path
+from PyQt5.QtWidgets import QApplication, QSplashScreen, QLabel
+from PyQt5.QtCore import Qt
 from src.utils.learning_manager import LearningManager
 
 # Configuration
@@ -18,13 +21,14 @@ logging.basicConfig(level=logging.INFO, format="%(message)s")
 logger = logging.getLogger(__name__)
 
 def print_header():
-    print(r"""
-    ████████╗██╗  ██╗███████╗████████╗████████╗██████╗  █████╗ ██╗  ██╗
-    ╚══██╔══╝██║  ██║██╔════╝╚══██╔══╝╚══██╔══╝██╔══██╗██╔══██╗╚██╗██╔╝
-       ██║   ███████║█████╗     ██║      ██║   ██████╔╝███████║ ╚███╔╝ 
-       ██║   ██╔══██║██╔══╝     ██║      ██║   ██╔══██╗██╔══██║ ██╔██╗ 
-       ██║   ██║  ██║███████╗   ██║      ██║   ██║  ██║██║  ██║██╔╝ ██╗
-       ╚═╝   ╚═╝  ╚═╝╚══════╝   ╚═╝      ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝
+    print("""
+        ____            __                      _             _             
+|  _ \ ___ _ __ / _| ___  _ __ _ __ ___ (_)_ __   __ _| |_ ___  _ __ 
+| |_) / _ \ '__| |_ / _ \| '__| '_ ` _ \| | '_ \ / _` | __/ _ \| '__|
+|  __/  __/ |  |  _| (_) | |  | | | | | | | | | | (_| | || (_) | |   
+|_|   \___|_|  |_|  \___/|_|  |_| |_| |_|_|_| |_|\__,_|\__\___/|_|   
+            
+           Performinator - AI Music Production Assistant       
     """)
 
 def check_audio_group():
@@ -124,14 +128,17 @@ def configure_magenta_studio():
     except subprocess.CalledProcessError as e:
         logger.error(f"Error configuring Magenta Studio: {e}", exc_info=True)
 
-def launch_app():
+def launch_electron_app():
     try:
-        logger.info("🚀 Launching Performinator...")
-        subprocess.run(["performinator"], check=True)
+        logger.info("Launching Performinator Electron app...")
+        subprocess.run(["npx", "electron", "."], check=True)
     except subprocess.CalledProcessError as e:
-        logger.error(f"❌ Failed to launch Performinator: {e}", exc_info=True)
-    except KeyboardInterrupt:
-        logger.info("\n🛑 Session terminated")
+        logger.error(f"Error launching Performinator: {e}")
+        if e.returncode == 1:
+            logger.error("Severe error: Performinator launch failed.")
+            sys.exit(1)
+        else:
+            logger.error("Non-severe error: Continuing execution.")
 
 def system_check():
     logger.info("🔍 Running system checks...")
@@ -183,6 +190,17 @@ def install_dependencies():
     except subprocess.CalledProcessError as e:
         logger.error(f"Error installing Python dependencies: {e}", exc_info=True)
 
+# Create a splash screen using PyQt5
+def show_splash():
+    app = QApplication([])
+    splash = QSplashScreen()
+    splash.setWindowFlags(Qt.FramelessWindowHint)
+    splash.setStyleSheet("background-color: #121212; color: #00ffee; font-size: 24px;")
+    splash.showMessage("🐧 Performinator is warming up...", Qt.AlignCenter, Qt.white)
+    splash.show()
+    time.sleep(2)  # Simulate loading time
+    splash.close()
+
 def main():
     args = parse_args()
     
@@ -217,7 +235,7 @@ def main():
                 learning_manager.learn_from_text(text_content)
         
         # Launch application after all configurations are complete
-        launch_app()
+        launch_electron_app()
         learning_manager.capture_user_output("Performinator launched")
         
     except Exception as e:
@@ -225,10 +243,11 @@ def main():
         sys.exit(1)
 
 if __name__ == "__main__":
+    show_splash()
     try:
-        main()
+        launch_electron_app()
     except KeyboardInterrupt:
-        logger.info("\n🛑 Operation cancelled")
+        logger.info("Operation cancelled by user.")
 
 # Note on Cloud and Online Features
 # Please note that cloud and online features are future features. These features should be kept in the option menu and layout, but if clicked, they should show a message indicating that it is a feature that is coming later.

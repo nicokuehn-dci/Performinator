@@ -173,7 +173,7 @@ def midi_hotplug_callback(action, device):
 
 def launch_electron_app():
     try:
-        subprocess.run(["npm", "start"], check=True)
+        subprocess.run(["npx", "electron", "."], check=True)
     except subprocess.CalledProcessError as e:
         logger.error(f"Error launching Performinator: {e}")
         if e.returncode == 1:
@@ -211,7 +211,7 @@ def show_cloud_feature_message():
 
 if __name__ == "__main__":
     try:
-        main()
+        launch_electron_app()
     except Exception as e:
         logger.error(f"Unhandled exception: {e}")
         if isinstance(e, subprocess.CalledProcessError) and e.returncode == 1:
@@ -219,3 +219,20 @@ if __name__ == "__main__":
             sys.exit(1)
         else:
             logger.error("Non-severe error: Continuing execution.")
+
+import sys
+
+while True:
+    line = sys.stdin.readline().strip()
+    if line == 'dashboard':
+        print('Loading Dashboard...')
+    elif line == 'sequencer':
+        print('Loading Sequencer...')
+    elif line == 'sampler':
+        print('Loading Sampler...')
+    elif line == 'effects':
+        print('Loading Effects...')
+    elif line == 'settings':
+        print('Loading Settings...')
+    else:
+        print('Unknown command:', line)

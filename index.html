@@ -3,26 +3,72 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Overbridge-Style App</title>
+    <title>Performinator</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div id="app">
-        <header>
-            <h1>Overbridge-Style GUI</h1>
+        <header class="topbar">
+            <h1>🎛 Performinator</h1>
+            <nav class="menu-bar">
+                <div class="dropdown">
+                    <button class="dropbtn">File</button>
+                    <div class="dropdown-content">
+                        <a href="#">New Project</a>
+                        <a href="#">Open Project</a>
+                        <a href="#">Save Project</a>
+                        <a href="#">Exit</a>
+                    </div>
+                </div>
+                <div class="dropdown">
+                    <button class="dropbtn">Edit</button>
+                    <div class="dropdown-content">
+                        <a href="#">Undo</a>
+                        <a href="#">Redo</a>
+                        <a href="#">Preferences</a>
+                    </div>
+                </div>
+                <div class="dropdown">
+                    <button class="dropbtn">View</button>
+                    <div class="dropdown-content">
+                        <a href="#">Toggle Fullscreen</a>
+                        <a href="#">Zoom In</a>
+                        <a href="#">Zoom Out</a>
+                    </div>
+                </div>
+                <div class="dropdown">
+                    <button class="dropbtn">Settings</button>
+                    <div class="dropdown-content">
+                        <a href="#">Audio Settings</a>
+                        <a href="#">MIDI Settings</a>
+                        <a href="#">UI Settings</a>
+                    </div>
+                </div>
+                <div class="dropdown">
+                    <button class="dropbtn">Help</button>
+                    <div class="dropdown-content">
+                        <a href="#">Documentation</a>
+                        <a href="#">About</a>
+                    </div>
+                </div>
+            </nav>
         </header>
-        <main>
-            <div id="device-panel">
-                <!-- Device controls -->
-            </div>
-            <div id="visualizer-panel">
-                <!-- Visual feedback -->
-            </div>
-        </main>
-        <footer>
-            <p>Custom Electron App</p>
-        </footer>
+
+        <div class="main">
+            <aside class="sidebar">
+                <button data-view="dashboard">Dashboard</button>
+                <button data-view="sequencer">Sequencer</button>
+                <button data-view="sampler">Sampler</button>
+                <button data-view="effects">Effects</button>
+                <button data-view="settings">Settings</button>
+            </aside>
+
+            <section class="content" id="content">
+                <p>Welcome to Performinator. Select a section.</p>
+            </section>
+        </div>
     </div>
     <script src="renderer.js"></script>
 </body>
 </html>
+
