@@ -1,4 +1,5 @@
 const { ipcRenderer } = require('electron');
+const shadcn = require('shadcn'); // Import shadcn
 
 // Function to send a message to the main process
 function sendMessageToMainProcess(message) {
@@ -58,6 +59,12 @@ document.addEventListener('DOMContentLoaded', () => {
             content.innerHTML = views[view] || "<p>Coming soon...</p>";
             ipcRenderer.send('navigate', view);
         });
+    });
+
+    // Initialize shadcn
+    shadcn.init({
+        window: window,
+        url: "https://v0.dev/chat/b/b_WDRe8HgZGZD?token=eyJhbGciOiJkaXIiLCJlbmMiOiJBMjU2R0NNIn0..kJnQKb04J0WqzvkW.PiqHyXL1AESQh-8qPMRTEWQiw-YthPxN1_BHmNHqkc0FPKDRlZRwcQ17zZY.pyP-DvzM6wDcPay2JAxwGQ"
     });
 
     // Example of sending a message to the main process

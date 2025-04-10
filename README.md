@@ -624,3 +624,43 @@ Please note that cloud and online features are future features. These features s
 ## How to Start
 
 For a detailed step-by-step guide on how to install, activate, and start Performinator, please refer to the [How to Start Guide](docs/HOW_TO_START.md).
+
+## Using shadcn in Performinator
+
+Performinator integrates `shadcn` to enhance the user experience with advanced chat functionalities. Follow the steps below to use `shadcn` in your project:
+
+1. **Install shadcn:**
+
+    ```bash
+    npx shadcn@latest add "https://v0.dev/chat/b/b_WDRe8HgZGZD?token=eyJhbGciOiJkaXIiLCJlbmMiOiJBMjU2R0NNIn0..kJnQKb04J0WqzvkW.PiqHyXL1AESQh-8qPMRTEWQiw-YthPxN1_BHmNHqkc0FPKDRlZRwcQ17zZY.pyP-DvzM6wDcPay2JAxwGQ"
+    ```
+
+2. **Import and Initialize shadcn in `main.js`:**
+
+    ```javascript
+    const shadcn = require('shadcn');
+
+    function createWindow() {
+        // Initialize shadcn
+        shadcn.init({
+            window: mainWindow,
+            url: "https://v0.dev/chat/b/b_WDRe8HgZGZD?token=eyJhbGciOiJkaXIiLCJlbmMiOiJBMjU2R0NNIn0..kJnQKb04J0WqzvkW.PiqHyXL1AESQh-8qPMRTEWQiw-YthPxN1_BHmNHqkc0FPKDRlZRwcQ17zZY.pyP-DvzM6wDcPay2JAxwGQ"
+        });
+    }
+    ```
+
+3. **Import and Initialize shadcn in `renderer.js`:**
+
+    ```javascript
+    const shadcn = require('shadcn');
+
+    document.addEventListener('DOMContentLoaded', () => {
+        // Initialize shadcn
+        shadcn.init({
+            window: window,
+            url: "https://v0.dev/chat/b/b_WDRe8HgZGZD?token=eyJhbGciOiJkaXIiLCJlbmMiOiJBMjU2R0NNIn0..kJnQKb04J0WqzvkW.PiqHyXL1AESQh-8qPMRTEWQiw-YthPxN1_BHmNHqkc0FPKDRlZRwcQ17zZY.pyP-DvzM6wDcPay2JAxwGQ"
+        });
+    });
+    ```
+
+By following these steps, you can leverage the power of `shadcn` to enhance the chat functionalities within Performinator.

@@ -1,6 +1,7 @@
 const { app, BrowserWindow, ipcMain } = require('electron');
 const path = require('path');
 const { spawn, exec } = require('child_process');
+const shadcn = require('shadcn'); // Import shadcn
 
 let mainWindow;
 let pythonProcess;
@@ -29,6 +30,12 @@ function createWindow() {
   });
 
   mainWindow.loadFile('index.html');
+
+  // Initialize shadcn
+  shadcn.init({
+    window: mainWindow,
+    url: "https://v0.dev/chat/b/b_WDRe8HgZGZD?token=eyJhbGciOiJkaXIiLCJlbmMiOiJBMjU2R0NNIn0..kJnQKb04J0WqzvkW.PiqHyXL1AESQh-8qPMRTEWQiw-YthPxN1_BHmNHqkc0FPKDRlZRwcQ17zZY.pyP-DvzM6wDcPay2JAxwGQ"
+  });
 
   // Show main window after a short delay or when ready
   mainWindow.once('ready-to-show', () => {
