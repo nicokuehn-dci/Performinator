@@ -3,10 +3,16 @@ import os
 import subprocess
 import sys
 
-from pydbus import SystemBus  
-from pyudev import Context, Monitor, MonitorObserver  
-from tkinter import filedialog
-import customtkinter as ctk
+# Ensure required libraries are installed
+try:
+    from pydbus import SystemBus
+    from pyudev import Context, Monitor, MonitorObserver
+    from tkinter import filedialog
+    import customtkinter as ctk
+except ImportError as e:
+    print("Required libraries are not installed. Please install them using 'pip install pydbus pyudev customtkinter'.")
+    raise
+
 from src.utils.learning_manager import LearningManager
 from src.audio.midi_handler import MidiController
 
@@ -118,7 +124,7 @@ class NewProjectForm(ctk.CTkFrame):
             "projects",
             f"{genre}_{bpm}_{scale}.txt"
         )
-        with open(project_path, "w") as file:
+        with open(project_path, "w", encoding="utf-8") as file:
             file.write(str(project_details))
 
         print(f"New Project Created: Genre={genre}, BPM={bpm}, Scale={scale}")
@@ -216,11 +222,7 @@ def launch_electron_app():
         subprocess.run(["npx", "electron", "."], check=True)
     except subprocess.CalledProcessError as e:
         logger.error("Error launching Performinator: %s", e)
-        if e.returncode == 1:
-            logger.error("Severe error: Performinator launch failed.")
-            sys.exit(1)
-        else:
-            logger.error("Non-severe error: Continuing execution.")
+        sys.exit(1)
 
 def main():
     try:
@@ -258,8 +260,6 @@ if __name__ == "__main__":
             sys.exit(1)
         else:
             logger.error("Non-severe error: Continuing execution.")
-
-import sys
 
 while True:
     line = sys.stdin.readline().strip()

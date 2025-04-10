@@ -6,15 +6,16 @@ import platform
 import shutil
 import argparse
 import logging
-import time
-from pathlib import Path
 from PyQt5.QtWidgets import QApplication, QSplashScreen
 from PyQt5.QtCore import Qt
 from src.utils.learning_manager import LearningManager
 
 # Configuration
 PYTHON_CMD = "python3" if platform.system() != "Windows" else "python"
-REQUIRED_BINARIES = ['pw-cli', 'ffmpeg', 'pipewire', 'aconnect', 'amidi', 'arecord', 'magenta-studio']
+REQUIRED_BINARIES = [
+    'pw-cli', 'ffmpeg', 'pipewire', 'aconnect', 'amidi', 'arecord',
+    'magenta-studio'
+]
 
 # Set up logging
 logging.basicConfig(
@@ -24,7 +25,7 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 def print_header():
-    print("""
+    print(r"""
         ____            __                      _             _             
 |  _ \ ___ _ __ / _| ___  _ __ _ __ ___ (_)_ __   __ _| |_ ___  _ __ 
 | |_) / _ \ '__| |_ / _ \| '__| '_ ` _ \| | '_ \ / _` | __/ _ \| '__|
@@ -38,8 +39,8 @@ def check_audio_group():
     try:
         groups = subprocess.check_output(['groups']).decode().split()
         return 'audio' in groups
-    except Exception as e:
-        logger.error(f"Error checking audio group: {e}", exc_info=True)
+    except subprocess.SubprocessError as e:
+        logger.error("Error checking audio group: %s", e, exc_info=True)
         return False
 
 def check_pipewire_version():
@@ -48,8 +49,8 @@ def check_pipewire_version():
         version_str = output.decode().split()[1]
         version = tuple(map(int, version_str.split('.')))
         return version >= (0, 3, 50)
-    except Exception as e:
-        logger.error(f"Error checking PipeWire version: {e}", exc_info=True)
+    except subprocess.SubprocessError as e:
+        logger.error("Error checking PipeWire version: %s", e, exc_info=True)
         return False
 
 def check_pipewire_configuration():
@@ -58,7 +59,7 @@ def check_pipewire_configuration():
         logger.info("PipeWire is configured and running.")
         return True
     except subprocess.CalledProcessError as e:
-        logger.error(f"Error checking PipeWire configuration: {e}", exc_info=True)
+        logger.error("PipeWire configuration failed: %s", e, exc_info=True)
         return False
 
 def check_system_deps():
@@ -73,7 +74,7 @@ def configure_pipewire():
         subprocess.run(['pw-cli', 'info'], check=True)
         logger.info("PipeWire is configured and running.")
     except subprocess.CalledProcessError as e:
-        logger.error(f"Error configuring PipeWire: {e}", exc_info=True)
+        logger.error("Error configuring PipeWire: %s", e, exc_info=True)
 
 def configure_pipewire_audio_midi():
     try:
@@ -85,7 +86,7 @@ def configure_pipewire_audio_midi():
         subprocess.run(['pw-cli', 'load-module', 'module-jack-sink'], check=True)
         logger.info("PipeWire audio and MIDI configuration complete.")
     except subprocess.CalledProcessError as e:
-        logger.error(f"Error configuring PipeWire for audio and MIDI: {e}", exc_info=True)
+        logger.error("Error configuring PipeWire for audio and MIDI: %s", e, exc_info=True)
 
 def setup_midi_devices():
     try:
@@ -93,7 +94,7 @@ def setup_midi_devices():
         subprocess.run(['aconnect', '-i', '-o'], check=True)
         subprocess.run(['amidi', '-l'], check=True)
     except subprocess.CalledProcessError as e:
-        logger.error(f"Error setting up MIDI devices: {e}", exc_info=True)
+        logger.error("Error setting up MIDI devices: %s", e, exc_info=True)
 
 def setup_recording_choices():
     try:
@@ -111,14 +112,15 @@ def setup_recording_choices():
             else:
                 logger.error("Invalid input. Please enter numeric values for card/device/bitrate.")
 
-        logger.info(f"Recording configuration: Card {card_number}, Device {device_number}, Format {format}, Bitrate {bitrate}")
+        logger.info("Recording configuration: Card %s, Device %s, Format %s, Bitrate %s",
+                    card_number, device_number, format, bitrate)
         
         subprocess.run(
             ['arecord', '-D', f'plughw:{card_number},{device_number}', '-f', format, '-r', bitrate, '-d', '10', 'test_recording.wav'],
             check=True,
         )
     except subprocess.CalledProcessError as e:
-        logger.error(f"Error setting up recording choices: {e}", exc_info=True)
+        logger.error("Error setting up recording choices: %s", e, exc_info=True)
 
 def setup_multitrack_recording():
     logger.info("🔧 Setting up multi-track recording...")
@@ -129,14 +131,14 @@ def configure_magenta_studio():
         logger.info("🔧 Configuring Magenta Studio...")
         subprocess.run(['magenta-studio', '--configure'], check=True)
     except subprocess.CalledProcessError as e:
-        logger.error(f"Error configuring Magenta Studio: {e}", exc_info=True)
+        logger.error("Error configuring Magenta Studio: %s", e, exc_info=True)
 
 def launch_electron_app():
     try:
         logger.info("Launching Performinator Electron app...")
         subprocess.run(["npx", "electron", "."], check=True)
     except subprocess.CalledProcessError as e:
-        logger.error(f"Error launching Performinator: {e}")
+        logger.error("Error launching Performinator: %s", e)
         if e.returncode == 1:
             logger.error("Severe error: Performinator launch failed.")
             sys.exit(1)
@@ -151,18 +153,18 @@ def system_check():
         issues.append("User not in 'audio' group - run:\n  sudo usermod -a -G audio $USER && reboot")
     
     if not check_pipewire_version():
-        issues.append(f"PipeWire >= 0.3.50 required")
+        issues.append("PipeWire >= 0.3.50 required")
     
     if not check_pipewire_configuration():
         issues.append("PipeWire is not properly configured")
     
     if missing := check_system_deps():
-        issues.append(f"Missing binaries: {', '.join(missing)}\n  sudo apt install pipewire ffmpeg pipewire-pulse aconnect amidi arecord magenta-studio")
+        issues.append("Missing binaries: %s\n  sudo apt install pipewire ffmpeg pipewire-pulse aconnect amidi arecord magenta-studio" % ', '.join(missing))
     
     if issues:
         logger.error("\n❌ System configuration issues:")
         for i, issue in enumerate(issues, 1):
-            logger.error(f"{i}. {issue}")
+            logger.error("%d. %s", i, issue)
         return False
     
     return True
@@ -182,7 +184,7 @@ def setup_virtualenv():
         subprocess.run(activate_command, shell=True, check=True)
         logger.info("Virtual environment activated.")
     except subprocess.CalledProcessError as e:
-        logger.error(f"Error setting up virtual environment: {e}", exc_info=True)
+        logger.error("Error setting up virtual environment: %s", e, exc_info=True)
 
 def install_dependencies():
     try:
@@ -191,7 +193,7 @@ def install_dependencies():
         subprocess.run([PYTHON_CMD, "-m", "pip", "install", "-r", "requirements.txt"], check=True)
         logger.info("Python dependencies installed.")
     except subprocess.CalledProcessError as e:
-        logger.error(f"Error installing Python dependencies: {e}", exc_info=True)
+        logger.error("Error installing Python dependencies: %s", e, exc_info=True)
 
 # Create a splash screen using PyQt5
 def show_splash():
@@ -247,7 +249,7 @@ def main():
         learning_manager.capture_user_output("Performinator launched")
         
     except Exception as e:
-        logger.error(f"\n❌ Setup failed: {e}", exc_info=True)
+        logger.error("\n❌ Setup failed: %s", e, exc_info=True)
         sys.exit(1)
 
 if __name__ == "__main__":
