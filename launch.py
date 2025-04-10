@@ -8,7 +8,7 @@ import argparse
 import logging
 import time
 from pathlib import Path
-from PyQt5.QtWidgets import QApplication, QSplashScreen, QLabel
+from PyQt5.QtWidgets import QApplication, QSplashScreen
 from PyQt5.QtCore import Qt
 from src.utils.learning_manager import LearningManager
 
@@ -17,7 +17,10 @@ PYTHON_CMD = "python3" if platform.system() != "Windows" else "python"
 REQUIRED_BINARIES = ['pw-cli', 'ffmpeg', 'pipewire', 'aconnect', 'amidi', 'arecord', 'magenta-studio']
 
 # Set up logging
-logging.basicConfig(level=logging.INFO, format="%(message)s")
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s - %(levelname)s - %(message)s"
+)
 logger = logging.getLogger(__name__)
 
 def print_header():
@@ -195,10 +198,15 @@ def show_splash():
     app = QApplication([])
     splash = QSplashScreen()
     splash.setWindowFlags(Qt.FramelessWindowHint)
-    splash.setStyleSheet("background-color: #121212; color: #00ffee; font-size: 24px;")
-    splash.showMessage("🐧 Performinator is warming up...", Qt.AlignCenter, Qt.white)
+    splash.setStyleSheet(
+        "background-color: #121212; color: #00ffee; font-size: 24px;"
+    )
+    splash.showMessage(
+        "🐧 Performinator is warming up...",
+        Qt.AlignCenter
+    )
     splash.show()
-    time.sleep(2)  # Simulate loading time
+    app.processEvents()
     splash.close()
 
 def main():

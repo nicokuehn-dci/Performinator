@@ -7,7 +7,7 @@ pydbus==0.6.0  # Added for PipeWire metadata
 pyudev==0.24.1  # Added for MIDI hotplug monitoring
 
 # Audio Processing
-pedalboard==0.7.4
+pedalboard==0.9.16
 pydub==0.25.1
 librosa==0.10.0  # Added for advanced audio analysis
 soundfile==0.12.1  # Added for audio file I/O
@@ -15,11 +15,11 @@ soundfile==0.12.1  # Added for audio file I/O
 # MIDI
 mido==1.2.10
 python-rtmidi==1.5.6
-rtmidi==4.0.4  # Added for MIDI input and output
+rtmidi==2.5.0  # Updated to a compatible version
 
 # Config
 configparser==5.3.0
-PyYAML==6.0  # Added for YAML configuration support
+PyYAML  # Added for YAML configuration support
 
 # Additional Dependencies
 mutagen

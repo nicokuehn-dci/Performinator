@@ -40,39 +40,51 @@ document.getElementById('visualizer-panel').addEventListener('input', (event) =>
   }
 });
 
-const content = document.getElementById("content");
-const buttons = document.querySelectorAll(".sidebar button");
-
-const views = {
-  dashboard: "<h2>Dashboard</h2><p>Overview of your projects.</p>",
-  sequencer: "<h2>Sequencer</h2><p>Grid-based beat maker interface.</p>",
-  sampler: "<h2>Sampler</h2><p>Load and assign samples.</p>",
-  effects: "<h2>Effects Rack</h2><p>Chain your effects here.</p>",
-  settings: "<h2>Settings</h2><p>Adjust audio/MIDI prefs here.</p>",
-  profile: "<h2>Artist Profile</h2><p>Set up your artist name and favorite genre.</p>",
-  projects: "<h2>Projects</h2><p>View, start, or add new projects.</p>",
-  engine: "<h2>App Engine</h2><p>Start the app engine to begin creating.</p>",
-};
-
-buttons.forEach(btn => {
-  btn.addEventListener("click", () => {
-    const view = btn.dataset.view;
-    content.innerHTML = views[view] || "<p>Coming soon...</p>";
-  });
-});
-
 document.addEventListener('DOMContentLoaded', () => {
-    const sidebar = document.querySelector('.sidebar');
+    const content = document.getElementById('content');
+    const buttons = document.querySelectorAll('.sidebar button');
 
-    sidebar.addEventListener('click', (event) => {
-        if (event.target.tagName === 'BUTTON') {
-            const view = event.target.dataset.view;
-            ipcRenderer.send('navigate', view); // Send the view name to the main process
-        }
+    const views = {
+        dashboard: "<h2>Dashboard</h2><p>Overview of your projects.</p>",
+        sequencer: "<h2>Sequencer</h2><p>Grid-based beat maker interface.</p>",
+        sampler: "<h2>Sampler</h2><p>Load and assign samples.</p>",
+        effects: "<h2>Effects Rack</h2><p>Chain your effects here.</p>",
+        settings: "<h2>Settings</h2><p>Adjust audio/MIDI prefs here.</p>"
+    };
+
+    buttons.forEach(button => {
+        button.addEventListener('click', () => {
+            const view = button.dataset.view;
+            content.innerHTML = views[view] || "<p>Coming soon...</p>";
+        });
     });
 
-    ipcRenderer.on('update-content', (event, content) => {
-        const contentArea = document.getElementById('content');
-        contentArea.innerHTML = content; // Update the content area with data from the backend
+    // Example of sending a message to the main process
+    const menuItems = document.querySelectorAll('.menu-bar .dropdown-content a');
+    menuItems.forEach(item => {
+        item.addEventListener('click', (event) => {
+            const action = event.target.textContent;
+            ipcRenderer.send('menu-action', action);
+        });
+    });
+
+    ipcRenderer.on('update-content', (event, newContent) => {
+        content.innerHTML = newContent;
+    });
+
+    const pythonExecuteButton = document.getElementById('python-execute-button');
+    const pythonCodeInput = document.getElementById('python-code-input');
+    const pythonOutput = document.getElementById('python-output');
+
+    pythonExecuteButton.addEventListener('click', () => {
+        const code = pythonCodeInput.value;
+        pythonOutput.textContent = 'Executing...';
+
+        // Send the Python code to the main process for execution
+        ipcRenderer.invoke('execute-python-code', code).then(output => {
+            pythonOutput.textContent = output;
+        }).catch(error => {
+            pythonOutput.textContent = `Error: ${error.message}`;
+        });
     });
 });

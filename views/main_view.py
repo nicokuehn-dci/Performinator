@@ -1,4 +1,5 @@
 import tkinter as tk
+import customtkinter as ctk
 from ttkbootstrap import Frame
 from views.sidebar import Sidebar
 from views.topbar import Topbar
@@ -25,3 +26,15 @@ class MainView(Frame):
         self.saturation = ctk.CTkCheckBox(self, text="Saturation",
                                           fg_color=GLOW_ORANGE,
                                           hover_color=GLOW_ORANGE)
+
+        # Connect sidebar buttons to content updates
+        self.sidebar.load_dashboard = self.update_content("Dashboard")
+        self.sidebar.load_sequencer = self.update_content("Sequencer")
+        self.sidebar.load_sampler = self.update_content("Sampler")
+        self.sidebar.load_effects = self.update_content("Effects")
+        self.sidebar.load_settings = self.update_content("Settings")
+
+    def update_content(self, section):
+        def inner():
+            self.content.update_content(f"<h2>{section}</h2><p>Content for {section}.</p>")
+        return inner

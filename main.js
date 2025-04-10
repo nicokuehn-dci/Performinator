@@ -1,6 +1,6 @@
 const { app, BrowserWindow, ipcMain } = require('electron');
 const path = require('path');
-const { spawn } = require('child_process');
+const { spawn, exec } = require('child_process');
 
 let mainWindow;
 let pythonProcess;
@@ -23,6 +23,8 @@ function createWindow() {
     show: false, // hide until ready
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
+      contextIsolation: true,
+      enableRemoteModule: false
     }
   });
 
@@ -54,6 +56,21 @@ function createWindow() {
   ipcMain.on('navigate', (event, view) => {
     // Send the view name to the Python backend
     pythonProcess.stdin.write(`${view}\n`);
+  });
+
+  ipcMain.handle('execute-python-code', async (event, code) => {
+    return new Promise((resolve, reject) => {
+      const pythonPath = path.join(__dirname, 'daw_env', 'bin', 'python');
+      const command = `${pythonPath} -c "${code.replace(/"/g, '\\"')}"`;
+
+      exec(command, (error, stdout, stderr) => {
+        if (error) {
+          reject(new Error(stderr || error.message));
+        } else {
+          resolve(stdout);
+        }
+      });
+    });
   });
 }
 

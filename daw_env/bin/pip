@@ -1,4 +1,4 @@
-#!/home/nico-kuehn/projects/TuxTrax/daw_env/bin/python3.12
+#!/home/nico-kuehn-dci/Desktop/portfolio/performinator/performinator/daw_env/bin/python3
 # -*- coding: utf-8 -*-
 import re
 import sys

@@ -1,26 +1,34 @@
+import logging
+import os
 import subprocess
 import sys
-import os
-import logging
-import pydbus  # For PipeWire metadata
-from pyudev import Context, Monitor, MonitorObserver  # For MIDI hotplug
-from src.utils.learning_manager import LearningManager
+
+from pydbus import SystemBus  
+from pyudev import Context, Monitor, MonitorObserver  
 from tkinter import filedialog
 import customtkinter as ctk
+from src.utils.learning_manager import LearningManager
 from src.audio.midi_handler import MidiController
 
 # Set up logging
-logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s - %(levelname)s - %(message)s"
+)
 logger = logging.getLogger(__name__)
 
 class LoopLoader:
+
     def __init__(self):
         self.current_loop_path = None
 
     def import_loop(self):
         """Open file dialog to import a loop sample (WAV, MP3, etc.)"""
         filetypes = [("Audio Files", "*.wav *.mp3 *.aiff *.flac")]
-        path = filedialog.askopenfilename(title="Import Loop", filetypes=filetypes)
+        path = filedialog.askopenfilename(
+            title="Import Loop",
+            filetypes=filetypes
+        )
         if path:
             self.current_loop_path = path
             print(f"[LoopLoader] Loop imported: {os.path.basename(path)}")
@@ -34,15 +42,14 @@ class LoopLoader:
     def get_loop_path(self):
         return self.current_loop_path
 
-    # Optional: Playback integration placeholder
     def play_loop(self):
         if self.current_loop_path:
             print(f"[LoopLoader] Playing loop: {self.current_loop_path}")
-            # Here you would route this to your sampler or audio engine
         else:
             print("[LoopLoader] No loop loaded.")
 
 class ArtistProfileForm(ctk.CTkFrame):
+
     def __init__(self, master, *args, **kwargs):
         super().__init__(master, *args, **kwargs)
         self.artist_name_label = ctk.CTkLabel(self, text="Artist Name:")
@@ -50,7 +57,10 @@ class ArtistProfileForm(ctk.CTkFrame):
         self.artist_name_entry = ctk.CTkEntry(self)
         self.artist_name_entry.pack(pady=5)
 
-        self.profile_picture_label = ctk.CTkLabel(self, text="Profile Picture (URL or File Path):")
+        self.profile_picture_label = ctk.CTkLabel(
+            self,
+            text="Profile Picture (URL or File Path):"
+        )
         self.profile_picture_label.pack(pady=5)
         self.profile_picture_entry = ctk.CTkEntry(self)
         self.profile_picture_entry.pack(pady=5)
@@ -61,12 +71,16 @@ class ArtistProfileForm(ctk.CTkFrame):
         return artist_name, profile_picture
 
 class NewProjectForm(ctk.CTkFrame):
+
     def __init__(self, master, *args, **kwargs):
         super().__init__(master, *args, **kwargs)
 
         self.genre_label = ctk.CTkLabel(self, text="Genre:")
         self.genre_label.pack(pady=5)
-        self.genre_dropdown = ctk.CTkOptionMenu(self, values=["Pop", "Rock", "Electronic", "Jazz"])
+        self.genre_dropdown = ctk.CTkOptionMenu(
+            self,
+            values=["Pop", "Rock", "Electronic", "Jazz"]
+        )
         self.genre_dropdown.pack(pady=5)
 
         self.bpm_label = ctk.CTkLabel(self, text="BPM:")
@@ -76,10 +90,17 @@ class NewProjectForm(ctk.CTkFrame):
 
         self.scale_label = ctk.CTkLabel(self, text="Scale:")
         self.scale_label.pack(pady=5)
-        self.scale_dropdown = ctk.CTkOptionMenu(self, values=["Major", "Minor", "Pentatonic", "Blues"])
+        self.scale_dropdown = ctk.CTkOptionMenu(
+            self,
+            values=["Major", "Minor", "Pentatonic", "Blues"]
+        )
         self.scale_dropdown.pack(pady=5)
 
-        self.create_button = ctk.CTkButton(self, text="Create New Project", command=self.create_project)
+        self.create_button = ctk.CTkButton(
+            self,
+            text="Create New Project",
+            command=self.create_project
+        )
         self.create_button.pack(pady=10)
 
     def create_project(self):
@@ -93,7 +114,10 @@ class NewProjectForm(ctk.CTkFrame):
             "scale": scale
         }
 
-        project_path = os.path.join("projects", f"{genre}_{bpm}_{scale}.txt")
+        project_path = os.path.join(
+            "projects",
+            f"{genre}_{bpm}_{scale}.txt"
+        )
         with open(project_path, "w") as file:
             file.write(str(project_details))
 
@@ -104,13 +128,24 @@ def setup_virtualenv():
     try:
         logger.info("🔧 Setting up virtual environment...")
         if not os.path.exists("daw_env"):
-            subprocess.run([sys.executable, "-m", "venv", "daw_env"], check=True)
-        activate_script = "daw_env/bin/activate" if os.name != "nt" else "daw_env\\Scripts\\activate"
-        activate_command = f"source {activate_script}" if os.name != "nt" else activate_script
+            subprocess.run(
+                [sys.executable, "-m", "venv", "daw_env"],
+                check=True
+            )
+        activate_script = (
+            "daw_env/bin/activate"
+            if os.name != "nt"
+            else "daw_env\\Scripts\\activate"
+        )
+        activate_command = (
+            f"source {activate_script}"
+            if os.name != "nt"
+            else activate_script
+        )
         subprocess.run(activate_command, shell=True, check=True)
         logger.info("Virtual environment activated.")
     except subprocess.CalledProcessError as e:
-        logger.error(f"Error setting up virtual environment: {e}")
+        logger.error("Error setting up virtual environment: %s", e)
         if e.returncode == 1:
             logger.error("Severe error: Virtual environment setup failed.")
             raise
@@ -120,11 +155,17 @@ def setup_virtualenv():
 def install_dependencies():
     try:
         logger.info("📦 Installing Python dependencies...")
-        subprocess.run([sys.executable, "-m", "pip", "install", "--upgrade", "pip"], check=True)
-        subprocess.run([sys.executable, "-m", "pip", "install", "-r", "requirements.txt"], check=True)
+        subprocess.run(
+            [sys.executable, "-m", "pip", "install", "--upgrade", "pip"],
+            check=True
+        )
+        subprocess.run(
+            [sys.executable, "-m", "pip", "install", "-r", "requirements.txt"],
+            check=True
+        )
         logger.info("Python dependencies installed.")
     except subprocess.CalledProcessError as e:
-        logger.error(f"Error installing Python dependencies: {e}")
+        logger.error("Error installing Python dependencies: %s", e)
         if e.returncode == 1:
             logger.error("Severe error: Dependency installation failed.")
             raise
@@ -137,13 +178,12 @@ def setup_pipewire_metadata():
     """
     try:
         logger.info("🎵 Setting up PipeWire metadata for DAW integration...")
-        bus = pydbus.SystemBus()
+        bus = SystemBus()
         pipewire = bus.get("org.freedesktop.pipewire1")
-        # Example: Set metadata (replace with actual implementation)
         pipewire.SetMetadata("example.key", "example.value")
         logger.info("PipeWire metadata setup complete.")
     except Exception as e:
-        logger.error(f"Error setting up PipeWire metadata: {e}")
+        logger.error("Error setting up PipeWire metadata: %s", e)
         raise
 
 def monitor_midi_hotplug():
@@ -159,7 +199,7 @@ def monitor_midi_hotplug():
         observer.start()
         logger.info("MIDI hotplug monitoring started.")
     except Exception as e:
-        logger.error(f"Error monitoring MIDI hotplug events: {e}")
+        logger.error("Error monitoring MIDI hotplug events: %s", e)
         raise
 
 def midi_hotplug_callback(action, device):
@@ -167,15 +207,15 @@ def midi_hotplug_callback(action, device):
     Callback for MIDI device hotplug events.
     """
     if action == "add":
-        logger.info(f"MIDI device connected: {device.device_node}")
+        logger.info("MIDI device connected: %s", device.device_node)
     elif action == "remove":
-        logger.info(f"MIDI device disconnected: {device.device_node}")
+        logger.info("MIDI device disconnected: %s", device.device_node)
 
 def launch_electron_app():
     try:
         subprocess.run(["npx", "electron", "."], check=True)
     except subprocess.CalledProcessError as e:
-        logger.error(f"Error launching Performinator: {e}")
+        logger.error("Error launching Performinator: %s", e)
         if e.returncode == 1:
             logger.error("Severe error: Performinator launch failed.")
             sys.exit(1)
@@ -186,12 +226,11 @@ def main():
     try:
         setup_virtualenv()
         install_dependencies()
-        setup_pipewire_metadata()  # Add PipeWire metadata setup
-        monitor_midi_hotplug()  # Start MIDI hotplug monitoring
+        setup_pipewire_metadata()
+        monitor_midi_hotplug()
         learning_manager = LearningManager()
         learning_manager.capture_user_input("Setup and dependencies installed")
         
-        # Instantiate and use MidiController
         midi_controller = MidiController()
         midi_controller.open_port()
         midi_controller.listen_for_cc()
@@ -199,7 +238,7 @@ def main():
         launch_electron_app()
         learning_manager.capture_user_output("Performinator launched")
     except Exception as e:
-        logger.error(f"Unhandled exception: {e}")
+        logger.error("Unhandled exception: %s", e)
         if isinstance(e, subprocess.CalledProcessError) and e.returncode == 1:
             logger.error("Severe error: Unhandled exception occurred.")
             sys.exit(1)
@@ -213,7 +252,7 @@ if __name__ == "__main__":
     try:
         launch_electron_app()
     except Exception as e:
-        logger.error(f"Unhandled exception: {e}")
+        logger.error("Unhandled exception: %s", e)
         if isinstance(e, subprocess.CalledProcessError) and e.returncode == 1:
             logger.error("Severe error: Unhandled exception occurred.")
             sys.exit(1)

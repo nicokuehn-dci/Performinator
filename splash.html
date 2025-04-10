@@ -4,41 +4,89 @@
   <meta charset="UTF-8">
   <title>Performinator is warming up 🎛️🐧</title>
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap'); /* Example futuristic font */
+
     body {
       margin: 0;
-      background: #121212;
-      color: #00ffee;
+      /* Shiny dark blue background using a radial gradient */
+      background: radial-gradient(ellipse at center, #1a2a6c 0%, #05143d 100%);
+      /* Neon Orange base text color */
+      color: #FF7F00; /* A strong, vibrant orange */
       display: flex;
       align-items: center;
       justify-content: center;
-      height: 100vh;
-      font-family: 'Segoe UI', sans-serif;
+      min-height: 100vh; /* Use min-height for flexibility */
+      font-family: 'Orbitron', 'Arial', sans-serif; /* Futuristic font fallback */
       flex-direction: column;
+      overflow: hidden; /* Prevent scrollbars if content slightly overflows */
+      text-shadow: 0 0 3px rgba(255, 127, 0, 0.5); /* Subtle global text glow */
     }
+
     h1 {
-      font-size: 2em;
-      margin: 0;
+      font-size: 3em; /* Larger heading */
+      margin: 0 0 15px 0; /* Adjusted margin */
+      font-weight: 700; /* Bolder */
+      /* More pronounced neon glow for heading */
+      text-shadow:
+        0 0 5px #FF7F00,
+        0 0 10px #FF7F00,
+        0 0 15px #FF7F00,
+        0 0 20px #ff4500; /* Add a hint of orangered for intensity */
+      letter-spacing: 2px;
     }
-    p {
-      font-size: 1em;
+
+    p.status {
+      font-size: 1.3em;
       margin-top: 10px;
-      color: #888;
+      color: #FFa500; /* Slightly less intense orange for status */
+      text-shadow: 0 0 5px #FFa500;
     }
+
+    /* Dotting animation */
     .dotting::after {
       content: '';
       display: inline-block;
-      animation: dots 1.2s steps(3, end) infinite;
+      animation: dots 1.4s steps(4, end) infinite;
     }
+
     @keyframes dots {
-      0% { content: ''; }
-      33% { content: '.'; }
-      66% { content: '..'; }
-      100% { content: '...'; }
+      0%, 20% { content: ''; }
+      40% { content: '.'; }
+      60% { content: '..'; }
+      80%, 100% { content: '...'; }
     }
+
+    /* Footer button styling */
+    .footer-button {
+      position: absolute; /* Position at bottom */
+      bottom: 15px;
+      background-color: rgba(10, 20, 60, 0.6); /* Dark blue, slightly transparent */
+      color: #FF7F00; /* Neon orange text */
+      border: 1px solid rgba(255, 127, 0, 0.5); /* Subtle neon orange border */
+      padding: 4px 12px; /* Small padding */
+      font-size: 0.75em; /* Small font size */
+      border-radius: 5px; /* Slightly rounded corners */
+      cursor: default; /* It's not interactive */
+      text-shadow: 0 0 3px #FF7F00; /* Match neon glow */
+      font-family: 'Arial', sans-serif; /* Simple font for readability */
+      font-weight: normal;
+      letter-spacing: 0.5px;
+      transition: background-color 0.3s ease, border-color 0.3s ease; /* Smooth hover (optional) */
+    }
+
+    .footer-button:hover {
+        background-color: rgba(20, 35, 80, 0.7); /* Slightly lighter on hover */
+        border-color: rgba(255, 127, 0, 0.8);
+    }
+
   </style>
 </head>
 <body>
   <h1>🐧 Performinator</h1>
-  <p class="dotting">Starting</p>
+  <p class="status dotting">Starting</p>
+
+  <button class="footer-button">
+    coded by Nico Kuehn © 2025
+  </button>
 </body>
 </html>
