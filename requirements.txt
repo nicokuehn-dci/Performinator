@@ -2,6 +2,9 @@
 PyQt5==5.15.10
 numpy==1.26.0
 sounddevice==0.4.6
+customtkinter==5.2.0  # Added for custom tkinter widgets
+pydbus==0.6.0  # Added for PipeWire metadata
+pyudev==0.24.1  # Added for MIDI hotplug monitoring
 
 # Audio Processing
 pedalboard==0.7.4
